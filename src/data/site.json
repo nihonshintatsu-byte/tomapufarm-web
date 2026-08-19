@@ -1,0 +1,31 @@
+{
+  "name": "トマップファーム",
+  "nameEn": "TOMAPU FARM",
+  "company": "株式会社北海道開拓使",
+  "companyEn": "HOKKAIDO KAITAKUSHI Inc.",
+  "url": "https://tomapufarm.com",
+  "copyrightYear": "2020",
+  "gaId": "G-EG32C17Z18",
+  "ogSiteName": "北海道仁木町　自然体験農園 | 明治時代から続く農園",
+  "ogImage": "/assets/ogp.png",
+  "contact": {
+    "farmZip": "〒048-2403",
+    "farmAddress": "北海道余市郡仁木町然別１番地",
+    "officeZip": "〒047-0156",
+    "officeAddress": "北海道小樽市桜3-20-2",
+    "tel": "0134-65-8077",
+    "representative": "代表取締役　高橋 ひかり",
+    "founded": "2019年1月18日"
+  },
+  "links": {
+    "shop": "https://tomapufarm.thebase.in/",
+    "youtube": "https://youtu.be/3jXz3_AEbR0",
+    "facebook": "https://www.facebook.com/tomapufarm/",
+    "instagram": "https://www.instagram.com/tomapufarm/",
+    "twitter": "https://twitter.com/tomapufarm",
+    "instagramWidget": "https://snapwidget.com/embed/910725"
+  },
+  "form": {
+    "endpoint": "/api/contact.php"
+  }
+}

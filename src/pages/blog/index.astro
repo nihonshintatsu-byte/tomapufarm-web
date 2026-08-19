@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import NewsIndex from '../../components/NewsIndex.astro';
+import { getNews, PER_PAGE } from '../../lib/news';
+
+const all = await getNews();
+const totalPages = Math.max(1, Math.ceil(all.length / PER_PAGE));
+const posts = all.slice(0, PER_PAGE);
+---
+<Base
+  title="お知らせ | 北海道仁木町 自然体験農園"
+  description="トマップファーム（株式会社北海道開拓使）からのお知らせ・イベント情報・商品のご案内をお届けします。"
+  css={['blog.css']}
+>
+  <NewsIndex posts={posts} current={1} totalPages={totalPages} />
+</Base>

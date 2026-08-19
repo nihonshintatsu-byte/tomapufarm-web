@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tomapufarm-preview",
+      "runtimeExecutable": "php",
+      "runtimeArgs": ["-S", "127.0.0.1:4399", "-t", "dist"],
+      "port": 4399
+    }
+  ]
+}

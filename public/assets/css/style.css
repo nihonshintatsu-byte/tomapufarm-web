@@ -1,0 +1,866 @@
+@charset "utf-8";
+
+/*
+Theme Name: tomapu farm
+Description: tomapu farm template.
+Version: 1
+Author: tomapu farm
+Author URI: tomapu farm
+Version: 1.0
+License: tomapu farm
+*/
+
+/*--------------------------------------------------------------------------
+   reset
+---------------------------------------------------------------------------*/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,
+sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,
+figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
+body{line-height:0;}
+article,aside,details,figcaption,figure,main,footer,header,hgroup,menu,nav,section{display:block;}
+ol,ul,li{list-style:none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent;text-decoration: none;}
+ins{background-color:#ff9;color:#000;text-decoration:none;}
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold;}
+img{border:0;vertical-align:top;}
+em{font-style:italic;}
+del{text-decoration:line-through;}
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help;}
+table{border-collapse:collapse;border-spacing:0;}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:0;padding:0;}
+input,select,textarea{font-family:inherit;font-style:inherit;font-weight:inherit;font-size:100%;margin:0;padding:0;vertical-align:middle;}
+input:focus,textarea:focus,select:focus{outline:none;}
+
+
+/*--------------------------------------------------------------------------
+   html
+---------------------------------------------------------------------------*/
+html{
+  overflow-y: scroll;
+  font-size: 62.5%;
+}
+
+/*--------------------------------------------------------------------------
+   body
+---------------------------------------------------------------------------*/
+body{
+  color: #000000;
+
+  font-family: 'Noto Serif JP',"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: .05em;
+  line-height: 1.9;
+
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  overflow-x: hidden;
+}
+
+/*
+::-moz-selection{
+  color:;
+  background:;
+}
+::selection{
+  color:;
+  background:;
+}
+*/
+
+/*--------------------------------------------------------------------------
+   base link
+---------------------------------------------------------------------------*/
+a{
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255,255,255,1);
+  color: #000000;
+  transition: 0.5s;
+}
+a:link,
+a:visited{
+  text-decoration: none;
+}
+a:hover{
+  text-decoration: none;
+  outline: none;
+  opacity: 0.7;
+}
+a:active{
+  outline: none;
+}
+
+/*--------------------------------------------------------------------------
+   Other
+---------------------------------------------------------------------------*/
+
+/* clearfix
+-----------------------------------------------------------------*/
+.cf:before,
+.cf:after{
+  content: "";
+  display: table;
+}
+.cf:after{
+  clear: both;
+}
+.cf{
+  zoom: 1;
+}
+.sp{
+  display: none!important;
+}
+
+.go_top{
+}
+
+/* web font
+-----------------------------------------------------------------*/
+.josefin{
+  font-family: 'Josefin Sans', sans-serif;
+}
+.noto_sans{
+  font-family: 'Noto Sans JP',"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+}
+
+/*--------------------------------------------------------------------------
+   Page
+---------------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------
+   Header
+---------------------------------------------------------------------------*/
+#Header{
+  position: relative;
+}
+#Header.under{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+}
+#Header.under .mv{
+  display: none
+}
+#Header.under .logo{
+  display: none;
+}
+#Header.under .left_bar{
+  display: none;
+}
+#Header.under .sns_box{
+  display: none;
+}
+#Header.under .nav_box{
+  display: none;
+}
+#Header.under .global_navi{
+  position: initial;
+  width: 100%;
+  background-color: #3E0221;
+  padding: 0 50px 17px;
+  box-sizing: border-box;
+}
+
+#Header.under  #Navi{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+#Header.under  #Navi > ul{
+  display: flex;
+  justify-content: space-between;
+  width: 41%;
+  margin-top: 30px;
+}
+#Header.under  #Navi > ul > li{
+  font-size: 1.4rem;
+  text-align: left;
+}
+#Header.under #Navi > ul > li.eng_btn{
+	display: none;
+}
+#Header.under  #Navi > ul > li span{
+  display: block;
+  font-size: 1.2rem;
+  font-family: 'Josefin Sans', sans-serif;
+  transition: 0.6s;
+}
+#Header.under  #Navi > ul > li a:hover span{
+  opacity: 0.7;
+}
+#Header.under  #Navi ul li a{
+  color: #ffffff;
+}
+#Header.under  #Navi .under_logo{
+  width: 18%;
+  text-align: center;
+}
+
+#Header.under .fix_btn{
+  position: fixed;
+  top: 110px;
+  right: 50px;
+  z-index: 10;
+}
+
+@media screen and (max-width: 940px) {
+/* 940pxまでの幅の場合に適応される */
+
+
+/* 940pxまでの幅の場合に適応される */
+}
+
+/*--------------------------------------------------------------------------
+   Content
+---------------------------------------------------------------------------*/
+
+#Content.under{
+  padding-top: 110px;
+}
+
+/* Main
+-----------------------------------------------------------------*/
+#Main{
+}
+#Main section{
+}
+#Main .inner{
+}
+#Main h2.ttl{
+}
+#Main h3.ttl{
+}
+
+.more_btn_g{
+  width: 400px;
+  background-color: #EAE5DE;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+}
+.more_btn_g:hover{
+  opacity: 0.9;
+}
+.more_btn_g a{
+  display: block;
+  background-image: url(../images/common/arrow_r_g.png);
+  background-repeat: no-repeat;
+  background-size: 30px auto;
+  background-position: left 40px center;
+  padding: 23px 12px;
+}
+.more_btn_p{
+  width: 400px;
+  background-color: #72254C;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+}
+.more_btn_p:hover{
+  opacity: 0.9;
+}
+.more_btn_p a{
+  display: block;
+  background-image: url(../images/common/arrow_r_g.png);
+  background-repeat: no-repeat;
+  background-size: 30px auto;
+  background-position: left 40px center;
+  padding: 23px 12px;
+  color: #ffffff;
+}
+.more_btn_w{
+  width: 400px;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+  border: solid 1px #000000;
+}
+.more_btn_w:hover{
+  opacity: 0.9;
+}
+.more_btn_w a{
+  display: block;
+  background-image: url(../images/common/arrow_r_p.png);
+  background-repeat: no-repeat;
+  background-size: 30px auto;
+  background-position: left 40px center;
+  padding: 23px 12px;
+}
+.more_btn_wg{
+  width: 400px;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+  border: solid 1px #000000;
+}
+.more_btn_wg:hover{
+  opacity: 0.9;
+}
+.more_btn_wg a{
+  display: block;
+  background-image: url(../images/common/arrow_r_g.png);
+  background-repeat: no-repeat;
+  background-size: 30px auto;
+  background-position: left 40px center;
+  padding: 23px 12px;
+}
+
+.en_ttl{
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-family: 'Josefin Sans', sans-serif;
+}
+.en_ttl span{
+  display: block;
+  font-family: 'Noto Serif JP',"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",serif;
+  padding-top: 5px;
+}
+
+.top_en_ttl{
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 500;
+  color: #72254C;
+  text-align: center;
+}
+.top_en_ttl span{
+  display: block;
+  color: #000000;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-family: 'Noto Serif JP',"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",serif;
+  padding-top: 10px;
+}
+
+.breadcrumb{
+  padding: 20px 50px 0;
+}
+.breadcrumb .inner{
+  max-width: 1020px;
+  margin: 0 auto;
+}
+.breadcrumb ul{
+  display: flex;
+  justify-content: flex-start;
+}
+.breadcrumb ul li{
+  font-size: 1rem;
+  font-weight: 300;
+  padding-right: 5px;
+}
+.breadcrumb ul li a{
+  padding-right: 5px;
+}
+
+
+/*--------------------------------------------------------------------------
+   Footer
+---------------------------------------------------------------------------*/
+#Footer{
+  background-image: url(../images/common/bg_fotter.png);
+  background-size: cover;
+  background-position: center top;
+  padding-top: 110px;
+  position: relative;
+}
+#Footer .go_top{
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  margin-left: -35px;
+}
+#Footer .inner{
+  padding: 10px 50px 30px;
+  background-color: #3E0221;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#Footer #FooterNavi{
+  width: calc( 100% - 240px );
+  min-width: 600px;
+  padding: 0 20px;
+}
+#Footer #FooterNavi > ul{
+  display: flex;
+  justify-content: space-around;
+}
+#Footer #FooterNavi > ul > li{
+  font-size: 1.4rem;
+  text-align: left;
+  font-family: 'Josefin Sans', sans-serif;
+  line-height: 1.4rem;
+}
+#Footer #FooterNavi > ul > li span{
+  display: block;
+  font-size: 1.2rem;
+  font-family: 'Noto Serif JP',"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",serif;
+  transition: 0.6s;
+}
+#Footer #FooterNavi > ul > li a:hover span{
+  opacity: 0.7;
+}
+#Footer #FooterNavi ul li a{
+  color: #ffffff;
+}
+#Footer .sns_box{
+  width: 93px;
+  padding-top: 20px;
+}
+#Footer .sns_box ul{
+  height: 26px;
+  display: flex;
+  justify-content: space-between;
+	align-items: center;
+}
+#Footer .sns_box ul li:nth-child(1){
+	height: 26px;
+}
+#Footer .sns_box ul li:nth-child(2){
+	height: 24px;	
+}
+#Footer .sns_box ul li:nth-child(3){
+	height: 20px;
+}
+
+#Footer .eng_btn{
+  font-family: 'Josefin Sans', sans-serif;
+	position: absolute;
+	bottom: 30px;
+	right: 50px;
+}
+#Footer .eng_btn a{
+  border: solid 1px #ffffff;
+border-radius: 6px;
+padding: 8px 10px 6px;
+	color: #ffffff;
+	font-size: 1.4rem;
+}
+
+#Footer .copy{
+  font-size: 1rem;
+  margin-top: -20px;
+  padding-bottom: 20px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #3E0221;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+
+@media screen and (max-width: 820px) {
+/* 820pxまでの幅の場合に適応される */
+
+body{
+  min-width: 320px;
+  font-size: 1.4rem;
+}
+
+.sp{
+  display: inline-block!important;
+}
+.pc{
+  display: none!important;
+}
+
+.breadcrumb{
+  display: none;
+}
+
+/*--------------------------------------------------------------------------
+   Header
+---------------------------------------------------------------------------*/
+#Header{
+  position: relative;
+}
+#Header.under{
+  background-color: #3E0221;
+}
+#Header.under .mv{
+  display: none
+}
+#Header.under .logo{
+  display: block;
+  text-align: center;
+  padding-bottom: 10px;
+}
+#Header.under .logo img {
+    width: 43px;
+    height: auto;
+}
+#Header.under .left_bar{
+  display: none;
+}
+#Header.under .sns_box{
+  display: none;
+}
+
+#Header.under .global_navi{
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: -230px;
+  width: 230px;
+  z-index: 10;
+  background-color: #3E0221;
+  padding: 40px 0 30px;
+  transition: 0.3s;
+  box-sizing: border-box;
+  z-index: 5;
+}
+#Header.under .global_navi.active{
+  left: 0;
+}
+#Header.under .global_navi .global_navi_inner{
+  width: 100%;
+  margin: 0 auto;
+}
+
+#Header.under .nav_box{
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70px;
+  padding: 10px 0 10px;
+  text-align: center;
+  font-size: 1.2rem;
+  z-index: 6;
+  background-color: #3E0221;
+}
+#Header.under .nav_box .img{
+  display: none;
+}
+
+#Header.under .menu-trigger,
+#Header.under .menu-trigger span{
+  display: inline-block;
+  box-sizing: border-box;
+  transition: all .4s;
+}
+#Header.under .menu-trigger{
+  position: relative;
+  width: 10px;
+  height: 20px;
+  cursor: pointer;
+  padding: 18px 13px;
+}
+#Header.under .menu-trigger a:hover{
+  opacity: 1;
+}
+#Header.under .menu-trigger span{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: #ffffff;
+}
+#Header.under .menu-trigger span:nth-of-type(1){
+  top: 21px;
+}
+#Header.under .menu-trigger span:nth-of-type(2){
+  top: 11px;
+}
+#Header.under .menu-trigger span:nth-of-type(3){
+  bottom: 2px;
+}
+#Header.under .menu-trigger.active span:nth-of-type(1),
+#Header.under .menu-trigger.active span:nth-of-type(2){
+  top: 12px;
+  margin-top: 10px;
+  transform: rotate(-45deg);
+}
+#Header.under .menu-trigger.active span:nth-of-type(3){
+  bottom: 0;
+  margin-bottom: 12px;
+  transform: rotate(-135deg);
+}
+
+#Header.under #Navi{
+  position: relative;
+  display: block;
+}
+#Header.under #Navi > ul{
+  display: block;
+  padding-left: 60px;
+  width: 100%;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+#Header.under #Navi > ul > li{
+  font-size: 1.6rem;
+  margin-top: 20px;
+}
+#Header.under #Navi > ul > li.eng_btn{
+  font-family: 'Josefin Sans', sans-serif;
+	margin-top: 20px;
+	display: block;
+}
+#Header.under #Navi > ul > li.eng_btn a{
+  border: solid 1px #ffffff;
+border-radius: 6px;
+padding: 8px 10px 6px;
+}
+#Header.under #Navi > ul > li span{
+  display: block;
+  font-size: 1.5rem;
+}
+
+#Header.under .fix_btn{
+  top: 0;
+  right: 10px;
+}
+#Header.under .fix_btn img{
+  width: 80px;
+  height: auto;
+}
+
+
+#Header.under  #Navi .under_logo{
+  display: none
+}
+
+/*--------------------------------------------------------------------------
+     Content
+  ---------------------------------------------------------------------------*/
+
+#Content.under{
+  padding-top: 67px;
+}
+
+
+/* Main
+-----------------------------------------------------------------*/
+#Main{
+}
+#Main .inner{
+}
+#Main section{
+}
+#Main h2.ttl{
+}
+#Main h3.ttl{
+}
+
+.more_btn_g{
+  width: 300px;
+  background-color: #EAE5DE;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+}
+.more_btn_g:hover{
+  opacity: 0.9;
+}
+.more_btn_g a{
+  display: block;
+  background-image: url(../images/common/arrow_r_g.png);
+  background-repeat: no-repeat;
+  background-size: 25px auto;
+  background-position: left 20px center;
+  padding: 20px 12px 20px 20px;
+  font-size: 1.6rem;
+}
+.more_btn_p{
+  width: 300px;
+  background-color: #72254C;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+}
+.more_btn_p:hover{
+  opacity: 0.9;
+}
+.more_btn_p a{
+  display: block;
+  background-image: url(../images/common/arrow_r_g.png);
+  background-repeat: no-repeat;
+  background-size: 25px auto;
+  background-position: left 20px center;
+  padding: 20px 12px 20px 20px;
+  color: #ffffff;
+  font-size: 1.6rem;
+}
+
+.more_btn_w{
+  width: 300px;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+  border: solid 1px #000000;
+}
+.more_btn_w:hover{
+  opacity: 0.9;
+}
+.more_btn_w a{
+  display: block;
+  background-image: url(../images/common/arrow_r_p.png);
+  background-repeat: no-repeat;
+  background-size: 25px auto;
+  background-position: left 20px center;
+  padding: 20px 12px 20px 20px;
+}
+	
+	.more_btn_wg{
+  width: 300px;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 2px 2px 6px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  transition: 0.6s;
+  position: relative;
+  z-index: 5;
+  border: solid 1px #000000;
+}
+.more_btn_wg:hover{
+  opacity: 0.9;
+}
+.more_btn_wg a{
+  display: block;
+  background-image: url(../images/common/arrow_r_g.png);
+  background-repeat: no-repeat;
+  background-size: 25px auto;
+  background-position: left 20px center;
+  padding: 20px 12px 20px 20px;
+}
+
+
+/*--------------------------------------------------------------------------
+   Footer
+---------------------------------------------------------------------------*/
+#Footer{
+  background-image: url(../images/common/bg_fotter_sp.png);
+  background-size: contain;
+  background-position: center top;
+  padding-top: 15vw;
+  position: relative;
+  margin-left: -20px;
+  margin-top: 50px;
+}
+#Footer .go_top{
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  margin-left: -25px;
+}
+#Footer .inner{
+  padding: 0 15px 40px 35px;
+  background-color: #3E0221;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+#Footer .logo{
+  width: 60px;
+}
+#Footer .logo img{
+  width: 100%;
+}
+#Footer #FooterNavi{
+  width: calc( 100% - 85px );
+  min-width: auto;
+  max-width: 320px;
+  padding: 0;
+}
+#Footer #FooterNavi > ul{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+#Footer #FooterNavi > ul > li{
+  width: 46%;
+  font-size: 1.4rem;
+  text-align: left;
+  font-family: 'Josefin Sans', sans-serif;
+  margin-top: 30px;
+}
+#Footer #FooterNavi > ul > li span{
+  display: block;
+  font-size: 1.2rem;
+  font-family: 'Noto Serif JP',"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",serif;
+  transition: 0.6s;
+}
+#Footer #FooterNavi > ul > li a:hover span{
+  opacity: 0.7;
+}
+#Footer #FooterNavi ul li a{
+  color: #ffffff;
+}
+#Footer .sns_box{
+  width: 100%;
+  padding-top: 70px;
+}
+#Footer .sns_box ul{
+  height: 26px;
+  display: flex;
+  justify-content: center;
+}
+#Footer .sns_box ul li{
+  margin: 20px 30px 0;
+}
+
+#Footer .eng_btn{
+  font-family: 'Josefin Sans', sans-serif;
+	position: absolute;
+	bottom: 108px;
+	left: 50%;
+    margin-left: -38px;
+}
+#Footer .eng_btn a{
+  border: solid 1px #ffffff;
+border-radius: 6px;
+padding: 8px 10px 6px;
+}
+	
+#Footer .copy{
+  font-size: 1rem;
+  margin-top: 0;
+  padding-bottom: 10px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #3E0221;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+
+/* 820pxまでの幅の場合に適応される */
+}

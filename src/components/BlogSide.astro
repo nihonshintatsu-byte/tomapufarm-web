@@ -1,0 +1,27 @@
+---
+// お知らせ一覧ページの右カラム（SNS埋め込み）
+import site from '../data/site.json';
+---
+<div class="right">
+	<div class="box fb">
+		<h2 class="top_en_ttl">FACEBOOK</h2>
+		<div class="frame">
+			<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Ftomapufarm%2F&tabs=timeline&width=340&height=550&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId" width="340" height="400" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" title="Facebook"></iframe>
+		</div>
+	</div>
+	<div class="box insta">
+		<h2 class="top_en_ttl">INSTAGRAM</h2>
+		<div class="frame">
+			<!-- SnapWidget -->
+			<script is:inline async src="https://snapwidget.com/js/snapwidget.js"></script>
+			<iframe src={site.links.instagramWidget} class="snapwidget-widget" allowtransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden;  width:100%; " title="Instagram"></iframe>
+		</div>
+	</div>
+	<div class="box insta">
+		<h2 class="top_en_ttl">TWITTER</h2>
+		<div class="frame tw_frame">
+			<a class="twitter-timeline" href="https://twitter.com/tomapufarm?ref_src=twsrc%5Etfw">Tweets by tomapufarm</a>
+			<script is:inline async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+# さくらインターネットで .htaccess が有効な場合の設定。
+# 無効な環境でも、旧URL側に転送用のHTMLを置いてあるので転送は動きます。
+
+# 旧サイト（WordPress）のURLからの301転送
+Redirect 301 /blog/%e3%81%8a%e7%9f%a5%e3%82%89%e3%81%9b%e3%83%86%e3%82%b9%e3%83%8801/ /blog/website-open/
+Redirect 301 /blog/%e3%81%8a%e7%9f%a5%e3%82%89%e3%81%9b%e3%83%86%e3%82%b9%e3%83%8803/ /blog/seika-yoyaku-hanbai/
+Redirect 301 /comingsoon/ /
+Redirect 301 /sample-page/ /
+Redirect 301 /page/2/ /blog/
+
+# WordPress の管理画面・APIへのアクセスは存在しないので閉じる
+RedirectMatch 404 ^/wp-admin
+RedirectMatch 404 ^/wp-login\.php
+RedirectMatch 404 ^/wp-json
+RedirectMatch 404 ^/xmlrpc\.php
+
+# 静的ファイルのキャッシュ
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+</IfModule>

@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import site from '../../data/site.json';
+---
+<Base
+  title="お問い合わせありがとうございます | 北海道仁木町 自然体験農園"
+  description="お問い合わせを受け付けました。トマップファーム（株式会社北海道開拓使）"
+  css={['contact.css']}
+>
+<div class="breadcrumb">
+	<div class="inner">
+		<ul>
+			<li><a href="/">TOP</a><span>&gt;</span></li>
+			<li><a href="/contact/">お問い合わせ</a><span>&gt;</span></li>
+			<li>送信完了</li>
+		</ul>
+	</div>
+</div>
+<main id="Main" class="contact_page" role="main">
+	<section id="Sec01">
+		<div class="inner">
+			<h2 class="top_en_ttl">THANK YOU</h2>
+			<p class="txt">
+				お問い合わせいただき、ありがとうございます。<br>
+				内容を確認のうえ、担当者より折り返しご連絡いたします。<br>
+				<br>
+				数日たっても返信が届かない場合は、迷惑メールフォルダをご確認のうえ、<br>
+				お電話（{site.contact.tel}）でお問い合わせください。
+			</p>
+			<p class="more_btn_g" style="margin-top:60px;">
+				<a href="/">トップページへ戻る</a>
+			</p>
+		</div><!-- // .inner -->
+		<p class="bg_img_01"><img src="/assets/images/contact/bg_img_01.png" width="140" height="auto" alt=""></p>
+		<p class="bg_img_02"><img src="/assets/images/contact/bg_img_02.png" width="323" height="auto" alt=""></p>
+		<p class="bg_img_03"><img src="/assets/images/contact/bg_img_03.png" width="182" height="auto" alt=""></p>
+	</section><!-- // #Sec01 -->
+</main><!-- // #Main -->
+</Base>

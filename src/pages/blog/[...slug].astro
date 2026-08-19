@@ -1,0 +1,75 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getNews, newsUrl, newsDate } from '../../lib/news';
+
+export async function getStaticPaths() {
+  const { getNews, newsUrl } = await import('../../lib/news');
+  const posts = await getNews();
+  return posts.map((post, i) => ({
+    // newsUrl() から /blog/ と末尾の / を外したものがルートの slug
+    params: { slug: newsUrl(post).replace(/^\/blog\//, '').replace(/\/$/, '') },
+    props: { id: post.id, index: i },
+  }));
+}
+
+const { id, index } = Astro.props;
+const posts = await getNews();
+const post = posts.find((p) => p.id === id)!;
+const { Content } = await render(post);
+
+// 一覧は新しい順。next = ひとつ新しい記事、prev = ひとつ古い記事（現行サイトと同じ向き）
+const newer = index > 0 ? posts[index - 1] : null;
+const older = index < posts.length - 1 ? posts[index + 1] : null;
+---
+<Base
+  title={`${post.data.title} | 北海道仁木町 自然体験農園`}
+  description={post.data.title}
+  ogImage={post.data.image ?? post.data.thumbnail ?? undefined}
+  css={['news.css']}
+>
+<div class="breadcrumb">
+	<div class="inner">
+		<ul>
+			<li><a href="/">TOP</a><span>&gt;</span></li>
+			<li>お知らせ（詳細）</li>
+		</ul>
+	</div>
+</div>
+<main id="Main" class="news_page" role="main">
+	<section id="Sec01">
+		<div class="inner">
+			<h2 class="top_en_ttl">NEWS</h2>
+			<p class="date">{newsDate(post)}</p>
+			<h3 class="ttl">{post.data.title}</h3>
+			<div class="article">
+				<div class="flex">
+					<div class="txt_box">
+						<Content />
+					</div>
+					{post.data.image && (
+						<div class="img_box">
+							<p class="img">
+								<img src={post.data.image} width="100%" height="auto" alt="" />
+							</p>
+						</div>
+					)}
+				</div>
+			</div>
+			<div class="page_arrow cf">
+				<p class="pager-next">
+					{newer && (
+						<a href={newsUrl(newer)} rel="next"><i class="icon"><img src="/assets/images/news/arrow_l.png" width="36" height="auto" alt="次の記事" /></i></a>
+					)}
+				</p>
+				<p class="pager-prev">
+					{older && (
+						<a href={newsUrl(older)} rel="prev"><i class="icon"><img src="/assets/images/news/arrow_r.png" width="36" height="auto" alt="前の記事" /></i></a>
+					)}
+				</p>
+			</div>
+			<p class="back_list"><a href="/blog/">一覧へ戻る</a></p>
+		</div><!-- // .inner -->
+	</section><!-- // #Sec01 -->
+</main><!-- // #Main -->
+</Base>

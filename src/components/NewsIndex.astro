@@ -1,0 +1,55 @@
+---
+// お知らせ一覧（1ページ目 = /blog/ 、2ページ目以降 = /blog/page/2/ …）
+import BlogSide from './BlogSide.astro';
+import { newsUrl, newsDate, type News } from '../lib/news';
+
+interface Props { posts: News[]; current: number; totalPages: number; }
+const { posts, current, totalPages } = Astro.props;
+
+const pageUrl = (n: number) => (n === 1 ? '/blog/' : `/blog/page/${n}/`);
+const numbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+<div class="breadcrumb">
+	<div class="inner">
+		<ul>
+			<li><a href="/">TOP</a><span>&gt;</span></li>
+			<li>お知らせ</li>
+		</ul>
+	</div>
+</div>
+<main id="Main" class="blog_page" role="main">
+	<section id="Sec01">
+		<div class="inner">
+			<h2 class="top_en_ttl">BLOG</h2>
+			<div class="flex_box">
+				<div class="news_area">
+					<ul>
+						{posts.map((post) => (
+							<li>
+								<a href={newsUrl(post)}>
+									<p class="img">
+										{post.data.thumbnail && <img src={post.data.thumbnail} alt="" class="thumb" loading="lazy" />}
+									</p>
+									<p class="date">{newsDate(post)}</p>
+									<p class="txt">{post.data.title}</p>
+								</a>
+							</li>
+						))}
+					</ul>
+					{totalPages > 1 && (
+						<div class="pagenation">
+							{current > 1 && <a class="pagenation__item prev" href={pageUrl(current - 1)}></a>}
+							{numbers.map((n) => (
+								n === current
+									? <span class="pagenation__item number current">{n}</span>
+									: <a class="pagenation__item number" href={pageUrl(n)}>{n}</a>
+							))}
+							{current < totalPages && <a class="pagenation__item next" href={pageUrl(current + 1)}></a>}
+						</div>
+					)}
+				</div>
+				<BlogSide />
+			</div>
+		</div><!-- // .inner -->
+	</section><!-- // #Sec01 -->
+</main><!-- // #Main -->

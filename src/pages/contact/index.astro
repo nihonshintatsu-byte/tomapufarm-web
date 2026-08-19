@@ -1,0 +1,201 @@
+---
+import Base from '../../layouts/Base.astro';
+import site from '../../data/site.json';
+---
+<Base
+  title="お問い合わせ | 北海道仁木町 自然体験農園"
+  description="トマップファーム（株式会社北海道開拓使）へのお問い合わせフォームです。農園や商品へのご質問、事業者様とのお取引についてもお気軽にお問い合わせください。"
+  css={['contact.css']}
+>
+<div class="breadcrumb">
+	<div class="inner">
+		<ul>
+			<li><a href="/">TOP</a><span>&gt;</span></li>
+			<li>お問い合わせ</li>
+		</ul>
+	</div>
+</div>
+<main id="Main" class="contact_page" role="main">
+
+	<section id="Sec01">
+		<div class="inner">
+
+			<h2 class="top_en_ttl">CONTACT FORM</h2>
+
+			<p class="txt">
+				農園や商品へのご質問やご要望など、下記フォームに入力のうえお送りください。<br>
+				事業者様のお取引などにつきましても、お気軽にお問い合わせください。<br>
+				なお、送信前には必ずプライバシーポリシーのご確認をお願いいたします。
+			</p>
+
+			<div id="ContactForm">
+				<form id="ContactFormEl" method="post" action={site.form.endpoint} novalidate>
+					<div id="Entry" class="contact-block-02">
+						<div class="contact-block-02__inner">
+
+							<!-- ===== 入力画面 ===== -->
+							<div class="form-step" data-step="input">
+								<div class="form-table">
+
+									<dl class="form-table__row is-required" data-label="お名前">
+										<dt><span class="title">お名前</span></dt>
+										<dd><input type="text" name="your-name" size="60" value="" required></dd>
+									</dl>
+
+									<dl class="form-table__row -subject" data-label="法人・個人">
+										<dt></dt>
+										<dd>
+											<div class="checkbox-group-row">
+												<label class="checkbox-group">
+													<input checked name="your-subject" type="radio" value="法人">
+													<span class="text">法人</span>
+												</label>
+												<label class="checkbox-group">
+													<input name="your-subject" type="radio" value="個人">
+													<span class="text">個人</span>
+												</label>
+											</div>
+										</dd>
+									</dl>
+
+									<dl class="form-table__row" data-label="会社名">
+										<dt><span class="title">会社名</span></dt>
+										<dd><input type="text" name="your-company" size="60" value=""></dd>
+									</dl>
+
+									<dl class="form-table__row is-required" data-label="Eメールアドレス">
+										<dt><span class="title">Eメールアドレス</span></dt>
+										<dd><input type="email" name="your-email" size="60" value="" required></dd>
+									</dl>
+
+									<dl class="form-table__row -subject" data-label="お問い合わせ内容">
+										<dt><span class="title">お問い合わせ内容</span></dt>
+										<dd>
+											<div class="checkbox-group-row">
+												<label class="checkbox-group">
+													<input checked name="your-check" type="radio" value="商品について">
+													<span class="text">商品について</span>
+												</label>
+												<label class="checkbox-group">
+													<input name="your-check" type="radio" value="お取引について">
+													<span class="text">お取引について</span>
+												</label>
+												<label class="checkbox-group">
+													<input name="your-check" type="radio" value="その他">
+													<span class="text">その他</span>
+												</label>
+											</div>
+										</dd>
+									</dl>
+
+									<dl class="form-table__row is-required" data-label="お問い合わせ詳細">
+										<dt></dt>
+										<dd><textarea name="your-message" cols="50" rows="5" required></textarea></dd>
+									</dl>
+
+									<dl class="form-table__row -subject" data-label="プライバシーポリシー">
+										<dt></dt>
+										<dd class="policy">
+											<div class="checkbox-group-row">
+												<span class="mwform-checkbox-field horizontal-item">
+													<label>
+														<input type="checkbox" name="your-pra" value="プライバシーポリシーに同意します" required>
+														<span class="mwform-checkbox-field-text">プライバシーポリシーに同意します</span>
+													</label>
+												</span>
+											</div>
+											<div class="link"><a href="#Sec02">プライバシーポリシーはこちら</a></div>
+										</dd>
+									</dl>
+
+								</div>
+
+								<!-- 迷惑メール対策（人は入力しません） -->
+								<div style="position:absolute;left:-9999px;" aria-hidden="true">
+									<label>この欄は空のままにしてください<input type="text" name="your-website" tabindex="-1" autocomplete="off"></label>
+								</div>
+								<input type="hidden" name="form-opened-at" value="">
+
+								<p class="form-error" role="alert" hidden></p>
+
+								<div class="form-confirm">
+									<input type="button" value="確認画面へ" class="btn-cmn" data-action="confirm">
+								</div>
+							</div>
+
+							<!-- ===== 確認画面 ===== -->
+							<div class="form-step" data-step="confirm" hidden>
+								<p class="txt confirm-lead">入力内容をご確認のうえ、送信してください。</p>
+								<div class="form-table" data-confirm-table></div>
+								<p class="form-error" role="alert" hidden></p>
+								<div class="form-confirm">
+									<input type="submit" value="送信する" class="btn-cmn" data-action="send">
+								</div>
+								<div class="form-confirm-back">
+									<input type="button" value="戻る" class="btn-back" data-action="back">
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div><!-- // .inner -->
+
+		<p class="bg_img_01"><img src="/assets/images/contact/bg_img_01.png" width="140" height="auto" alt=""></p>
+		<p class="bg_img_02"><img src="/assets/images/contact/bg_img_02.png" width="323" height="auto" alt=""></p>
+		<p class="bg_img_03"><img src="/assets/images/contact/bg_img_03.png" width="182" height="auto" alt=""></p>
+
+	</section><!-- // #Sec01 -->
+
+	<section id="Sec02">
+		<div class="inner">
+
+			<h2 class="top_en_ttl">PRIVACY POLICY</h2>
+
+			<p class="txt">
+株式会社北海道開拓使（以下「当社」）は、以下のとおり個人情報保護方針を定め、個人情報保護の仕組みを構築し、全従業員に個人情報保護の重要性の認識と取組みを徹底させることにより、個人情報の保護を推進いたします。<br>
+<br>
+＜個人情報の管理＞<br>
+当社は、お客さまの個人情報を正確かつ最新の状態に保ち、個人情報への不正アクセス・紛失・破損・改ざん・漏洩などを防止するため、セキュリティシステムの維持・管理体制の整備・社員教育の徹底等の必要な措置を講じ、安全対策を実施し個人情報の厳重な管理を行います。<br>
+<br>
+＜個人情報の利用目的＞<br>
+お客さまからお預かりした個人情報は、当社からのご連絡や業務のご案内やご質問に対する回答として、電子メールや資料のご送付に利用いたします。<br>
+<br>
+＜個人情報の第三者への開示・提供の禁止＞<br>
+当社は、お客さまよりお預かりした個人情報を適切に管理し、次のいずれかに該当する場合を除き、個人情報を第三者に開示いたしません。<br>
+・お客さまの同意がある場合<br>
+・お客さまが希望されるサービスを行うために当社が業務を委託する業者に対して開示する場合<br>
+・法令に基づき開示することが必要である場合<br>
+<br>
+＜個人情報の安全対策＞<br>
+当社は、個人情報の正確性及び安全性確保のために、セキュリティに万全の対策を講じています。<br>
+<br>
+＜ご本人の照会＞<br>
+お客さまがご本人の個人情報の照会・修正・削除などをご希望される場合には、ご本人であることを確認の上、対応させていただきます。<br>
+<br>
+＜法令、規範の遵守と見直し＞<br>
+当社は、保有する個人情報に関して適用される日本の法令、その他規範を遵守するとともに、本ポリシーの内容を適宜見直し、その改善に努めます。<br>
+<br>
+＜お問い合わせ＞<br>
+当社の個人情報の取扱に関するお問い合せは下記までご連絡ください。<br>
+<br>
+株式会社北海道開拓使<br>
+住所：{site.contact.farmZip} {site.contact.farmAddress}　　　TEL：{site.contact.tel}
+			</p>
+
+			<p class="form_back"><a href="#Sec01">フォームに戻る</a></p>
+
+		</div><!-- // .inner -->
+
+		<p class="bg_img_04"><img src="/assets/images/contact/bg_img_04.png" width="265" height="auto" alt=""></p>
+		<p class="bg_img_05"><img src="/assets/images/contact/bg_img_05.png" width="183" height="auto" alt=""></p>
+		<p class="bg_img_06"><img src="/assets/images/contact/bg_img_06.png" width="290" height="auto" alt=""></p>
+
+	</section><!-- // #Sec02 -->
+
+</main><!-- // #Main -->
+
+<script is:inline src="/assets/js/contact-form.js"></script>
+</Base>

@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro';
+import { getNews, newsUrl, newsDate } from '../lib/news';
+
+// トップページに出す「LATEST NEWS」は最新3件
+const latest = (await getNews()).slice(0, 3);
+---
+<Base
+  title="北海道仁木町 自然体験農園 | NIKI TOMAPU FARM【トマップファーム】"
+  description="トマップファームは、北海道仁木町にあるアイヌ語で「トマップ」と呼ばれる地域で100年続く農園を継承して始まった農園です。「果実とやすらぎの里」と呼ばれ、農作物の栽培に適した仁木町で、ぶどうやさくらんぼ・プルーンなどの果樹、とうもろこしなどの野菜も育てています。収穫・出荷体験など、農業にふれあうイベントも行っています。"
+  keywords="北海道,果物,さくらんぼ,ぶどう,農業,観光,野菜,収穫,体験,果樹,トマップ,北海道開拓使,イベント,農作物,仁木,農園"
+  ogTitle="北海道仁木町 自然体験農園 | NIKI TOMAPU FARM【トマップファーム】"
+  ogDescription="明治から100年続く農園が「トマップファーム」として生まれ変わりました。「トマップ」とは、アイヌ語由来のこの地域の呼び名です。"
+  css={['top.css']}
+  variant="top"
+  contentClass="top"
+  slick={true}
+>
+
+<!--==========================
+Main
+============================-->
+	<main id="Main" class="top" role="main">
+
+		<section id="Sec01">
+			<div class="inner">
+
+				<div class="ttl_box">
+					<img src="/assets/images/top/name.png" width="254" height="auto" alt="北海道北海道・仁木 トマップファーム">
+				</div>
+
+				<div class="main_txt_area">
+					<p class="main_txt">
+						100 年続いた農園を<br>
+						100 年先へ<br class="sp">つないでいく
+					</p>
+					<p class="txt">
+						明治から100年続く農園が<br>
+						「トマップファーム」として<br class="sp">生まれ変わりました。<br>
+						「トマップ」とは、アイヌ語由来の<br class="sp">この地域の呼び名です。
+					</p>
+					<p class="bg_img_01">
+						<img class="pc" src="/assets/images/top/bg_img_02.png" width="239" height="auto">
+						<img class="sp" src="/assets/images/top/bg_img_02_sp.png" width="115" height="auto">
+					</p>
+					<p class="bg_img_02">
+						<img class="pc" src="/assets/images/top/bg_img_01.png" width="339" height="auto">
+						<img class="sp" src="/assets/images/top/bg_img_01_sp.png" width="115" height="auto">
+					</p>
+				</div>
+
+				<div class="what_area">
+					<div class="area_inner">
+						<p class="en_ttl">
+							WHAT'S TOMAPU FARM?
+						</p>
+						<p class="img_ttl">
+							<img src="/assets/images/top/txt_img.png" width="235" height="auto" alt="愛
+は、ぶどうも甘くする">
+						</p>
+						<p class="txt">
+							愛情をいっぱい込めて<br>育ったぶどうが主役です。
+						</p>
+					</div>
+					<p class="bg_img_03">
+						<img class="pc" src="/assets/images/top/bg_img_03.png" width="235" height="auto">
+						<img class="sp" src="/assets/images/top/bg_img_03_sp.png" width="106" height="auto">
+					</p>
+				</div>
+
+				<p class="more_btn_g">
+					<a href="/about/">
+						トマップファームについて
+					</a>
+				</p>
+
+				<div class="map_area">
+					<p class="txt">
+						「果実とやすらぎの里」北海道仁木町。<br>
+						ぶどう、サクランボ、ミニトマト、お米など<br class="sp">の栽培が<br class="pc">盛んな穏やかな農村地帯です。<br><br>
+						・「NIKIワイン特区」認定<br>
+						・「余市・仁木ワインツーリズム」実施
+					</p>
+					<div class="flex">
+						<p class="map">
+							<img src="/assets/images/top/img_01.png" width="100%" height="auto">
+						</p>
+						<p class="img">
+							<img src="/assets/images/top/img_02.png" width="100%" height="auto">
+						</p>
+					</div>
+				</div>
+
+			</div><!-- // .inner -->
+		</section><!-- // #Sec01 -->
+
+		<section id="Sec02">
+			<div class="inner">
+
+				<p class="top_ttl">
+					<img src="/assets/images/top/ttl_img.png" width="860" height="auto" alt="LATEST NEWS 新着情報">
+				</p>
+
+				<ul class="news_box">
+					{latest.map((post) => (
+						<li><a href={newsUrl(post)}>
+							<p class="img">
+								{post.data.thumbnail && <img src={post.data.thumbnail} alt="" width="400" height="300" class="thumb" loading="lazy" />}
+							</p>
+							<p class="date">{newsDate(post)}</p>
+							<p class="txt">{post.data.title}</p>
+						</a></li>
+					))}
+				</ul>
+
+			</div><!-- // .inner -->
+
+				<p class="more_btn_p">
+					<a href="/blog/">
+						お知らせ・情報一覧
+					</a>
+				</p>
+
+			<p class="bg_img_04">
+				<img class="pc" src="/assets/images/top/bg_img_04.png" width="120" height="auto">
+				<img class="sp" src="/assets/images/top/bg_img_04.png" width="60" height="auto">
+			</p>
+			<p class="bg_img_05">
+				<img class="pc" src="/assets/images/top/bg_img_05.png" width="305" height="auto">
+				<img class="sp" src="/assets/images/top/bg_img_05.png" width="150" height="auto">
+			</p>
+
+		</section><!-- // #Sec02 -->
+
+		<section id="Sec03">
+			<div class="inner">
+
+				<div class="vision_area">
+					<div class="area_inner">
+						<p class="en_ttl">
+							OUR VISION
+						</p>
+						<p class="ttl">
+							私たちだから<br class="sp">描ける<br>農業の未来図
+						</p>
+						<p class="txt">
+							株式会社北海道開拓使は、<br>
+							トマップファームを運営しています。<br>
+							「地域のため、地球のため」の農業を実践し、<br>
+							「小さな幸せ」をお届けします。
+						</p>
+					</div>
+					<p class="bg_img_06">
+						<img class="pc" src="/assets/images/top/bg_img_06.png" width="285" height="auto">
+						<img class="sp" src="/assets/images/top/bg_img_05_sp.png" width="110" height="auto">
+					</p>
+				</div>
+
+			</div><!-- // .inner -->
+
+			<div class="btn_flex">
+				<p class="more_btn_g">
+					<a href="/company/">
+						（株）北海道開拓使について
+					</a>
+				</p>
+				<p class="more_btn_g">
+					<a href="/service/">
+						事業内容はこちら
+					</a>
+				</p>
+			</div>
+
+		</section><!-- // #Sec03 -->
+
+		<section id="Sec04">
+			<div class="inner">
+
+				<ul>
+					<li>
+						<a href="https://youtu.be/3jXz3_AEbR0" target="_blank">
+							<img class="pc" src="/assets/images/top/bnr_01.png" width="100%" height="auto" alt="動画で観る">
+							<img class="sp" src="/assets/images/top/bnr_01_sp.png" width="100%" height="auto" alt="動画で観る">
+						</a>
+					</li>
+					<li>
+						<a href="https://tomapufarm.thebase.in/" target="_blank">
+							<img class="pc" src="/assets/images/top/bnr_02.png" width="100%" height="auto" alt="お取り寄せ">
+							<img class="sp" src="/assets/images/top/bnr_02_sp.png" width="100%" height="auto" alt="お取り寄せ">
+						</a>
+					</li>
+				</ul>
+
+				<p class="bg_img_07">
+					<img class="pc" src="/assets/images/top/bg_img_07.png" width="185" height="auto">
+					<img class="sp" src="/assets/images/top/bg_img_06_sp.png" width="92" height="auto">
+				</p>
+
+				<p class="bg_img_08">
+					<img class="pc" src="/assets/images/top/bg_img_08.png" width="185" height="auto">
+					<img class="sp" src="/assets/images/top/bg_img_07_sp.png" width="92" height="auto">
+				</p>
+
+			</div><!-- // .inner -->
+		</section><!-- // #Sec04 -->
+
+	</main><!-- // #Main -->
+</Base>

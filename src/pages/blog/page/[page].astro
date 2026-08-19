@@ -1,0 +1,27 @@
+---
+import Base from '../../../layouts/Base.astro';
+import NewsIndex from '../../../components/NewsIndex.astro';
+import { getNews, PER_PAGE } from '../../../lib/news';
+
+export async function getStaticPaths() {
+  const { getNews, PER_PAGE } = await import('../../../lib/news');
+  const all = await getNews();
+  const totalPages = Math.max(1, Math.ceil(all.length / PER_PAGE));
+  // 1ページ目は /blog/ が担当するので 2ページ目以降だけ書き出します
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
+const current = Number(Astro.params.page);
+const all = await getNews();
+const totalPages = Math.max(1, Math.ceil(all.length / PER_PAGE));
+const posts = all.slice((current - 1) * PER_PAGE, current * PER_PAGE);
+---
+<Base
+  title={`お知らせ（${current}ページ目） | 北海道仁木町 自然体験農園`}
+  description="トマップファーム（株式会社北海道開拓使）からのお知らせ・イベント情報・商品のご案内をお届けします。"
+  css={['blog.css']}
+>
+  <NewsIndex posts={posts} current={current} totalPages={totalPages} />
+</Base>

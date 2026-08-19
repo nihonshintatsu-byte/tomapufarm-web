@@ -1,0 +1,80 @@
+---
+// 全ページ共通の骨組み。<head> の meta とヘッダー・フッターをここで組みます。
+import site from '../data/site.json';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const {
+  title,                    // <title> に入る文字列
+  description = '',         // 検索結果に出る説明文
+  keywords = '',
+  ogTitle,
+  ogDescription,
+  ogImage = site.ogImage,
+  css = [],                 // このページだけで使う CSS（例: ['top.css']）
+  variant = 'under',        // 'top' ならメインビジュアル付きヘッダー
+  contentClass = 'under',   // #Content に付くクラス
+  slick = false,            // スライダーを使うページだけ true
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: https://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<meta charset="UTF-8">
+<meta name="format-detection" content="telephone=no,address=no,email=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="shortcut icon" href="/assets/images/favicon.png">
+
+<title>{title}</title>
+{description && <meta name="description" content={description} />}
+{keywords && <meta name="keywords" content={keywords} />}
+<link rel="canonical" href={canonical}>
+
+<meta property="og:site_name" content={site.ogSiteName}>
+<meta property="og:type" content="website">
+<meta property="og:title" content={ogTitle ?? title}>
+<meta property="og:description" content={ogDescription ?? description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:image" content={new URL(ogImage, site.url).href}>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content={ogTitle ?? title}>
+<meta name="twitter:description" content={ogDescription ?? description}>
+<meta name="twitter:image" content={new URL(ogImage, site.url).href}>
+
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/css/style.css">
+{css.map((f) => <link rel="stylesheet" href={`/assets/css/${f}`} />)}
+{slick && <link rel="stylesheet" href="/assets/js/slick.css" />}
+{slick && <link rel="stylesheet" href="/assets/js/slick-theme.css" />}
+
+<!-- webfont -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:300,400,500,700|Noto+Serif+JP:200,300,400,500,600,700&display=swap&subset=japanese" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- Google tag (gtag.js) -->
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
+<script is:inline define:vars={{ gaId: site.gaId }}>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', gaId);
+</script>
+</head>
+
+<body>
+<div id="Page">
+<Header variant={variant} />
+<div id="Content" class={contentClass}>
+<slot />
+</div><!-- // #Content -->
+<Footer />
+</div><!-- // #Page -->
+
+<script is:inline src="/assets/js/jquery-2.1.4.min.js"></script>
+{slick && <script is:inline src="/assets/js/slick.js"></script>}
+<script is:inline src="/assets/js/common.js"></script>
+</body>
+</html>

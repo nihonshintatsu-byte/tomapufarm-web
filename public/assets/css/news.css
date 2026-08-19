@@ -1,0 +1,128 @@
+@charset "utf-8";
+
+#Page{
+}
+
+/* news
+-----------------------------------------------------------------*/
+
+/* #Sec01
+-----------------------------------------------------------------*/
+.news_page #Sec01{
+	padding-top: 90px;
+ 	position: relative;
+ 	margin-bottom: 100px;
+}
+.news_page #Sec01 .inner{
+	max-width: 860px;
+	margin: 0 auto;
+	padding: 0 130px;
+}
+
+.news_page #Sec01 .date{
+	font-size: 1.8rem;
+	margin-top: 60px;
+}
+.news_page #Sec01 h3.ttl{
+	font-size: 2rem;
+	margin-top: 10px;
+	line-height: 3rem;
+	font-weight: 400;
+}
+
+.news_page #Sec01 .article{
+	margin-top: 50px;
+}
+.news_page #Sec01 .article .flex{
+	display: flex;
+	justify-content: space-between;
+}
+.news_page #Sec01 .article .flex .txt_box{
+	width: 53%;
+}
+.news_page #Sec01 .article .flex .txt_box p{
+	margin-bottom: 20px;
+}
+.news_page #Sec01 .article .flex .img_box{
+	width: 42%;
+}
+
+.news_page #Sec01 .page_arrow{
+	margin-top: 60px;
+}
+.news_page #Sec01 .page_arrow .pager-next{
+	float: left;
+}
+.news_page #Sec01 .page_arrow .pager-prev{
+	float: right;
+}
+.news_page #Sec01 .back_list{
+	text-align: center;
+}
+
+@media screen and (max-width: 920px) {
+/* 920pxまでの幅の場合に適応される */
+
+
+/* 920pxまでの幅の場合に適応される */
+}
+
+@media screen and (max-width: 820px) {
+/* 820pxまでの幅の場合に適応される */
+
+/* news
+-----------------------------------------------------------------*/
+
+
+/* #Sec01
+-----------------------------------------------------------------*/
+.news_page #Sec01{
+	padding-top: 50px;
+ 	position: relative;
+ 	margin-bottom: 40px;
+}
+.news_page #Sec01 .inner{
+	max-width: 480px;
+	padding: 0 35px;
+	z-index: 2;
+	position: relative;
+}
+
+.news_page #Sec01 .date{
+	font-size: 1.6rem;
+	margin-top: 40px;
+}
+.news_page #Sec01 h3.ttl{
+	font-size: 1.8rem;
+	margin-top: 10px;
+	line-height: 2.6rem;
+	font-weight: 400;
+}
+
+.news_page #Sec01 .article{
+	margin-top: 30px;
+}
+.news_page #Sec01 .article .flex{
+	display: block;
+}
+.news_page #Sec01 .article .flex .txt_box{
+	width: 100%;
+}
+.news_page #Sec01 .article .flex .txt_box p{
+	margin-bottom: 20px;
+}
+.news_page #Sec01 .article .flex .img_box{
+	width: 100%;
+	margin-top: 20px;
+}
+
+.news_page #Sec01 .page_arrow{
+	margin-top: 40px;
+}
+.news_page #Sec01 .back_list{
+	text-align: center;
+	margin-top: 10px;
+}
+
+/* 820pxまでの幅の場合に適応される */
+}

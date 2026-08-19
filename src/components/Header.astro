@@ -1,0 +1,77 @@
+---
+// サイト共通ヘッダー。トップページだけ variant="top"（メインビジュアルを表示）
+import site from '../data/site.json';
+const { variant = 'under' } = Astro.props;
+---
+<header id="Header" class={variant} role="banner">
+	<div class="nav_box">
+		<p class="menu-trigger"><a>
+			<span></span>
+			<span></span>
+			<span></span>
+		</a></p>
+		<p class="img">
+			<img src="/assets/images/common/menu_txt.png" width="10" height="auto" alt="menu">
+		</p>
+	</div>
+	<h1 class="logo">
+		<a href="/">
+			<img src="/assets/images/common/logo.png" width="110" height="auto" alt="TOMAPU FARM">
+		</a>
+	</h1>
+	<!-- ~~~ グローバルナビ ~~~ -->
+	<div class="global_navi" role="navigation">
+		<div class="global_navi_inner">
+			<nav id="Navi" class="nav">
+				<ul>
+					<li><a href="/about/">トマップファーム<span>TOMAPU FARM</span></a></li>
+					<li><a href="/company/">会社情報<span>COMPANY</span></a></li>
+					<li><a href="/service/">事業内容<span>SERVICE</span></a></li>
+				</ul>
+				<h1 class="under_logo">
+					<a href="/">
+						<img src="/assets/images/common/logo.png" width="70" height="auto" alt="TOMAPU FARM">
+					</a>
+				</h1>
+				<ul>
+					<li><a href="/blog/">お知らせ<span>BLOG</span></a></li>
+					<li><a href="/transaction/">お取引について<span>BUSINESS</span></a></li>
+					<li><a href="/contact/">お問い合わせ<span>CONTACT</span></a></li>
+					<li class="eng_btn"><a href="/english/">ENGLISH</a></li>
+				</ul>
+			</nav><!-- // #Navi -->
+		</div><!-- // .global_navi_inner -->
+	</div><!-- // .global_navi -->
+	<!-- ~~~ //グローバルナビ ~~~ -->
+	<div class="sns_box">
+		<ul>
+			<li><a href={site.links.facebook} target="_blank" rel="noopener"><img src="/assets/images/common/fb.png" width="12" height="auto" alt="facebook"></a></li>
+			<li><a href={site.links.instagram} target="_blank" rel="noopener"><img src="/assets/images/common/insta.png" width="22" height="auto" alt="instagram"></a></li>
+			<li><a href={site.links.twitter} target="_blank" rel="noopener"><img src="/assets/images/common/tw.png" width="24" height="auto" alt="twitter"></a></li>
+		</ul>
+	</div>
+	{variant === 'top' && (
+		<>
+			<div class="left_bar"></div>
+			<div class="mv">
+				<video src="/assets/images/top/movie.mp4" autoplay playsinline muted loop></video>
+				<p class="mv_txt">
+					<img src="/assets/images/top/mv_txt.png" width="153" height="auto" alt="小さなまちから小さな幸せを届けます">
+				</p>
+				<p class="icon">
+					<a href="#Sec01"><img src="/assets/images/top/scroll.png" width="40" height="auto" alt="scroll"></a>
+				</p>
+				<div class="mv_slide">
+					<div class="mv_img"><img src="/assets/images/top/mv_sp_01.png" width="100%" height="auto" alt=""></div>
+					<div class="mv_img"><img src="/assets/images/top/mv_sp_02.png" width="100%" height="auto" alt=""></div>
+					<div class="mv_img"><img src="/assets/images/top/mv_sp_03.png" width="100%" height="auto" alt=""></div>
+				</div>
+			</div><!-- // .mv -->
+		</>
+	)}
+	<p class="fix_btn">
+		<a href={site.links.shop} target="_blank" rel="noopener">
+			<img src="/assets/images/common/fix_btn.png" width="105" height="auto" alt="online shop">
+		</a>
+	</p>
+</header><!-- // #Header -->

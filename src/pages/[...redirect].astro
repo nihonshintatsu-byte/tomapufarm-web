@@ -1,0 +1,29 @@
+---
+// 旧サイトのURL（WordPress時代のもの）から新しいURLへ転送するためのページ。
+// 転送先は src/data/redirects.json で管理します。
+import redirects from '../data/redirects.json';
+
+export async function getStaticPaths() {
+  const list = (await import('../data/redirects.json')).default;
+  return list.map((r: { from: string; to: string }) => ({
+    params: { redirect: r.from.replace(/^\//, '').replace(/\/$/, '') },
+    props: { to: r.to },
+  }));
+}
+
+const { to } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href={new URL(to, 'https://tomapufarm.com').href}>
+<meta http-equiv="refresh" content={`0;url=${to}`}>
+<title>移動しました</title>
+</head>
+<body>
+<p>このページは <a href={to}>{to}</a> に移動しました。</p>
+<script is:inline define:vars={{ to }}>location.replace(to);</script>
+</body>
+</html>

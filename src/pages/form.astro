@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+
+const noshi = ['有', '無'];
+const noshiType = ['お中元', 'お歳暮', 'お年賀', '御祝', '御礼', '無地'];
+const products = ['1st Vintageセット', 'TOMAPU BOX:A', 'TOMAPU BOX:B', 'TOMAPU BOX:C'];
+const deliveryDates = ['指定なし', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'];
+const deliveryTimes = ['指定なし', '午前中', '14時～16時', '16時～18時', '18時～20時'];
+---
+<Base
+  title="注文フォーム | 北海道仁木町 自然体験農園"
+  description="トマップファームのギフト商品のご注文フォームです。"
+  css={['order-form.css']}
+>
+<main id="Main" class="order_form_page" role="main">
+	<section id="Sec01">
+		<div class="inner">
+			<div class="order_form">
+				<form id="OrderFormEl" method="post" action={site.form.endpoint} data-form-name="ご注文フォーム" novalidate>
+
+					<!-- 送り主 -->
+					<fieldset>
+						<legend>送り主</legend>
+						<p><label for="sender-name">氏名:</label><input id="sender-name" type="text" name="sender-name" maxlength="400" required></p>
+						<p><label for="sender-address">住所:</label><textarea id="sender-address" name="sender-address" rows="10" maxlength="2000" required></textarea></p>
+						<p><label for="sender-phone">電話番号:</label><input id="sender-phone" type="tel" name="sender-phone" maxlength="400" required></p>
+						<p><label for="sender-email">メールアドレス:</label><input id="sender-email" type="email" name="sender-email" maxlength="400" required></p>
+						<p>
+							<span class="field-name">のし有無:</span>
+							{noshi.map((v) => <label class="inline"><input type="checkbox" name="noshi[]" value={v}>{v}</label>)}
+						</p>
+						<p>
+							<span class="field-name">表書き:</span>
+							{noshiType.map((v) => <label class="inline"><input type="checkbox" name="noshi-type[]" value={v}>{v}</label>)}
+						</p>
+					</fieldset>
+
+					<!-- お届け先 -->
+					<fieldset>
+						<legend>お届け先</legend>
+						<p><label for="recipient-name">氏名:</label><input id="recipient-name" type="text" name="recipient-name" maxlength="400" required></p>
+						<p><label for="recipient-address">住所:</label><textarea id="recipient-address" name="recipient-address" rows="10" maxlength="2000" required></textarea></p>
+						<p><label for="recipient-phone">電話番号:</label><input id="recipient-phone" type="tel" name="recipient-phone" maxlength="400" required></p>
+						<p>
+							<span class="field-name">商品:</span>
+							{products.map((v) => <label class="inline"><input type="checkbox" name="product-type[]" value={v}>{v}</label>)}
+						</p>
+						<p><label for="item-quantity">商品個数:</label><input id="item-quantity" type="number" name="item-quantity" min="1"></p>
+						<p>
+							<span class="field-name">配達日指定:</span>
+							{deliveryDates.map((v) => <label class="inline"><input type="checkbox" name="delivery-date-option[]" value={v}>{v}</label>)}
+						</p>
+						<p>
+							<span class="field-name">配達時間帯:</span>
+							{deliveryTimes.map((v) => <label class="inline"><input type="checkbox" name="delivery-time[]" value={v}>{v}</label>)}
+						</p>
+					</fieldset>
+
+					<!-- 迷惑メール対策（人は入力しません） -->
+					<div style="position:absolute;left:-9999px;" aria-hidden="true">
+						<label>この欄は空のままにしてください<input type="text" name="your-website" tabindex="-1" autocomplete="off"></label>
+					</div>
+					<input type="hidden" name="form-opened-at" value="">
+
+					<p class="form-error-tip" role="alert" hidden></p>
+					<p><input type="submit" value="送信"></p>
+				</form>
+			</div>
+		</div><!-- // .inner -->
+	</section><!-- // #Sec01 -->
+</main><!-- // #Main -->
+
+<script is:inline src="/assets/js/contact-form.js"></script>
+</Base>

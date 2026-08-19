@@ -1,0 +1,34 @@
+---
+import site from '../data/site.json';
+---
+<footer id="Footer" role="contentinfo">
+	<p class="go_top">
+		<a href="#Page"><img src="/assets/images/common/go_top.png" width="70" height="auto" alt="page top"></a>
+	</p>
+	<div class="inner">
+		<p class="logo">
+			<a href="/"><img src="/assets/images/common/logo_02.png" width="80" height="auto" alt="TOMAPU FARM"></a>
+		</p>
+		<nav id="FooterNavi">
+			<ul>
+				<li><a href="/about/">TOMAPU FARM<span>トマップファーム</span></a></li>
+				<li><a href="/company/">COMPANY<span>会社情報</span></a></li>
+				<li><a href="/service/">SERVICE<span>事業内容</span></a></li>
+				<li><a href="/blog/">BLOG<span>お知らせ</span></a></li>
+				<li><a href="/transaction/">BUSINESS<span>お取引について</span></a></li>
+				<li><a href="/contact/">CONTACT<span>お問い合わせ</span></a></li>
+			</ul>
+		</nav><!-- // #Navi -->
+		<div class="sns_box">
+			<ul>
+				<li><a href={site.links.facebook} target="_blank" rel="noopener"><img src="/assets/images/common/fb.png" width="12" height="auto" alt="facebook"></a></li>
+				<li><a href={site.links.instagram} target="_blank" rel="noopener"><img src="/assets/images/common/insta.png" width="22" height="auto" alt="instagram"></a></li>
+				<li><a href={site.links.twitter} target="_blank" rel="noopener"><img src="/assets/images/common/tw.png" width="24" height="auto" alt="twitter"></a></li>
+			</ul>
+		</div>
+		<p class="eng_btn"><a href="/english/">ENGLISH</a></p>
+	</div>
+	<!-- コピーライト -->
+	<p class="copy">{site.copyrightYear} &copy; {site.companyEn} All rights reserved.</p>
+	<!-- //コピーライト -->
+</footer><!-- // #Footer -->
