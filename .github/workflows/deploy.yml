@@ -25,7 +25,26 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # さくらの接続情報がまだ登録されていない間は、転送せずビルド確認だけで終わります。
+      # （未登録のまま転送を試みると毎回失敗して赤くなり、本当の異常が埋もれるため）
+      - name: さくらの接続情報があるか確認
+        id: creds
+        env:
+          SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
+          SERVER_DIR: ${{ secrets.SAKURA_SERVER_DIR }}
+        run: |
+          if [ -z "$SERVER" ] || [ -z "$SERVER_DIR" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=転送は行いません::さくらの接続情報（Secrets）が未登録です。ビルドの確認だけで終了しました。SAKURA_FTP_SERVER / SAKURA_FTP_USERNAME / SAKURA_FTP_PASSWORD / SAKURA_SERVER_DIR を登録してから再実行してください。"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 出来上がったページの一覧
+        run: find dist -name '*.html' | sort
+
       - name: さくらへ転送（変更があったファイルだけ）
+        if: steps.creds.outputs.ready == 'true'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.SAKURA_FTP_SERVER }}
