@@ -1,24 +1,40 @@
-# さくらインターネットで .htaccess が有効な場合の設定。
-# 無効な環境でも、旧URL側に転送用のHTMLを置いてあるので転送は動きます。
+# さくらインターネット用の設定（前段 nginx／後段 Apache）。
+# 現行サイトが WordPress のパーマリンクで動いていることから、.htaccess は有効と確認済み。
 
-# 旧サイト（WordPress）のURLからの301転送
-Redirect 301 /blog/%e3%81%8a%e7%9f%a5%e3%82%89%e3%81%9b%e3%83%86%e3%82%b9%e3%83%8801/ /blog/website-open/
-Redirect 301 /blog/%e3%81%8a%e7%9f%a5%e3%82%89%e3%81%9b%e3%83%86%e3%82%b9%e3%83%8803/ /blog/seika-yoyaku-hanbai/
-Redirect 301 /comingsoon/ /
-Redirect 301 /sample-page/ /
-Redirect 301 /page/2/ /blog/
+# --- www ありでのアクセスを www なしへ集約 -----------------------------------
+# これまで WordPress が転送していた（x-redirect-by: WordPress）。
+# WordPress を消すとこの転送が無くなり、同じサイトが2つのURLで配られてしまうため、
+# ここで引き継ぐ。http→https の転送はさくら側（nginx）が行うので記述しない。
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.tomapufarm\.com$ [NC]
+  RewriteRule ^(.*)$ https://tomapufarm.com/$1 [R=301,L]
+</IfModule>
 
-# WordPress の管理画面・APIへのアクセスは存在しないので閉じる
+# --- 見つからないページ -------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# --- WordPress 時代の入口は閉じる（存在しないので機械的なアクセスを止める）----
 RedirectMatch 404 ^/wp-admin
 RedirectMatch 404 ^/wp-login\.php
 RedirectMatch 404 ^/wp-json
+RedirectMatch 404 ^/wp-includes
 RedirectMatch 404 ^/xmlrpc\.php
 
-# 静的ファイルのキャッシュ
+# --- ディレクトリの中身を一覧表示させない -----------------------------------
+Options -Indexes
+
+# --- 静的ファイルのキャッシュ -----------------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType image/png "access plus 30 days"
-  ExpiresByType image/jpeg "access plus 30 days"
-  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType image/png        "access plus 30 days"
+  ExpiresByType image/jpeg       "access plus 30 days"
+  ExpiresByType image/svg+xml    "access plus 30 days"
+  ExpiresByType video/mp4        "access plus 30 days"
+  ExpiresByType application/pdf  "access plus 7 days"
+  ExpiresByType text/css         "access plus 7 days"
   ExpiresByType application/javascript "access plus 7 days"
 </IfModule>
+
+# 旧URLからの転送は src/data/redirects.json に書く（転送用のHTMLが自動生成される）。
+# ここには書かない。2か所に分かれると必ずずれる。

@@ -102,6 +102,8 @@ draft: false
 
 古いURLからの転送を必ず用意します。`src/data/redirects.json` に
 `{ "from": "/古いURL/", "to": "/新しいURL/" }` を足すと、転送用のページが自動で作られます。
+**転送はここだけで管理します。** `public/.htaccess` には個別のURLを書かないこと
+（2か所に分かれると必ずずれる）。
 
 ---
 
