@@ -98,12 +98,17 @@ php -S localhost:4400 -t dist
 
 日本信達が `nihonshintatsu-byte/tomapufarm-web` を作り、社長を招待します。
 招待メールを承認したら、このフォルダを GitHub と繋ぎます。
+**接続先はすでに設定してあるので、確認して取り込むだけです。**
 
 ```bash
-git remote add origin https://github.com/nihonshintatsu-byte/tomapufarm-web.git
+git remote -v      # https://github.com/nihonshintatsu-byte/tomapufarm-web.git と出るはず
 git fetch origin
 git status
 ```
+
+`git fetch` で認証を求められたら、GitHub のユーザー名と
+**Personal Access Token**（パスワードではありません）が必要です。分からなければ
+日本信達に聞いてください。
 
 もし手元とGitHub側で中身が違ったら、**勝手に上書きせず**社長に伝えて、
 日本信達に確認してください。
