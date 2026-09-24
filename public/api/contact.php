@@ -120,11 +120,16 @@ $subject = '【tomapufarm.com】' . $formName . 'より（' . ($isOrder ? $value
 $configPath = __DIR__ . '/config.php';
 $config = is_readable($configPath) ? require $configPath : null;
 
-function sendWithResend(array $config, string $subject, string $body, string $replyTo): array
+// 宛先は旧サイトの設定を引き継ぐ（お問い合わせ＝MW WP Form、ご注文＝Contact Form 7 の設定値）
+$to = $isOrder
+    ? (array)($config['order_to'] ?? 'info@hokkaido-kaitakushi.co.jp')
+    : (array)($config['to'] ?? 'info@tomapufarm.com');
+
+function sendWithResend(array $config, array $to, string $subject, string $body, string $replyTo): array
 {
     $payload = [
         'from'     => $config['from'],
-        'to'       => $config['to'],
+        'to'       => $to,
         'subject'  => $subject,
         'text'     => $body,
         'reply_to' => $replyTo,
@@ -147,9 +152,8 @@ function sendWithResend(array $config, string $subject, string $body, string $re
     return [$code >= 200 && $code < 300, $code, $err, (string)$res];
 }
 
-function sendWithSakuraMail(?array $config, string $subject, string $body, string $replyTo): bool
+function sendWithSakuraMail(?array $config, array $to, string $subject, string $body, string $replyTo): bool
 {
-    $to = $config['to'] ?? ['info@tomapufarm.com'];
     $from = $config['fallback_from'] ?? 'no-reply@tomapufarm.com';
     $headers = "From: " . $from . "\r\nReply-To: " . $replyTo;
     return mb_send_mail(implode(',', (array)$to), $subject, $body, $headers);
@@ -159,21 +163,21 @@ function sendWithSakuraMail(?array $config, string $subject, string $body, strin
 $logLine = $formName . "\t" . $replyTo . "\t";
 
 if ($config && !empty($config['resend_api_key']) && function_exists('curl_init')) {
-    [$ok, $code, $err, $res] = sendWithResend($config, $subject, $body, $replyTo);
+    [$ok, $code, $err, $res] = sendWithResend($config, $to, $subject, $body, $replyTo);
     if ($ok) {
         @error_log('[tomapufarm-form] ' . $logLine . "resend ok\n");
         respond(true);
     }
     @error_log('[tomapufarm-form] ' . $logLine . "resend NG code={$code} err={$err} res={$res}\n");
     // Resend が落ちていてもお客様の送信を捨てないよう、さくらのメールに切り替える
-    if (sendWithSakuraMail($config, $subject, $body, $replyTo)) {
+    if (sendWithSakuraMail($config, $to, $subject, $body, $replyTo)) {
         @error_log('[tomapufarm-form] ' . $logLine . "fallback ok\n");
         respond(true);
     }
     respond(false, 'メールの送信に失敗しました。');
 }
 
-if (sendWithSakuraMail($config, $subject, $body, $replyTo)) {
+if (sendWithSakuraMail($config, $to, $subject, $body, $replyTo)) {
     @error_log('[tomapufarm-form] ' . $logLine . "sakura ok\n");
     respond(true);
 }

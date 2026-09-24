@@ -24,9 +24,9 @@ echo "確認先: $BASE"
 head2 "1. ページが表示できるか"
 # 状態コードだけでは足りません（php -S は存在しないパスにも 200 と index.html を返す）。
 # 各ページが自分の canonical を持っていることまで確かめて、中身のすり替わりを検出します。
-for p in / /about/ /company/ /service/ /transaction/ /english/ /blog/ /blog/page/2/ \
+for p in / /about/ /company/ /service/ /transaction/ /english/ /blog/ \
          /contact/ /contact/thanks/ /form/ \
-         /blog/website-open/ /blog/coldpress-juice-project/ /blog/seika-yoyaku-hanbai/ \
+         /blog/website-open/ /blog/seika-yoyaku-hanbai/ \
          /blog/kinkyo-houkoku-supporter/ /blog/himawari-garden-2023/ ; do
   c=$(code "$BASE$p")
   if [ "$c" != "200" ]; then

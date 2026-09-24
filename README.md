@@ -75,10 +75,10 @@ WordPress の入口が閉じているか、フォームの受け口、`www` の�
 
 | 名前 | 内容 | 例 |
 |---|---|---|
-| `SAKURA_FTP_SERVER` | FTPサーバー名 | `www463.sakura.ne.jp` |
+| `SAKURA_FTP_SERVER` | FTPサーバー名 | `tomapufarm.sakura.ne.jp` |
 | `SAKURA_FTP_USERNAME` | FTPアカウント | `tomapufarm` |
 | `SAKURA_FTP_PASSWORD` | FTPパスワード | |
-| `SAKURA_SERVER_DIR` | 公開ディレクトリ（末尾に `/`） | `/home/tomapufarm/www/` |
+| `SAKURA_SERVER_DIR` | 新サイトの置き場所（末尾に `/`） | `/home/tomapufarm/www/site/` |
 
 ### 3. Resend の設定
 
@@ -110,24 +110,45 @@ Resend を使わない場合、`config.php` が無ければさくらのメール
 | **固定ページの一覧** | 移行対象は8枚（＋`sample-page`）と把握しているが、非公開ページがないか念のため確認 |
 | **ユーザー一覧** | 誰がアクセスできる状態だったかの記録として |
 
+**2026-09-24 に DB ダンプを読んで確認した結果（管理画面に入らずに済んだ）:**
+
+| 確認するもの | 結果 |
+|---|---|
+| MW WP Form の問い合わせ履歴 | **保存されていない**（DB保存の投稿が0件）。Contact Form 7 も保存プラグイン（Flamingo）なし |
+| 下書き・非公開の投稿 | 中身のある下書きなし。2026-09-19〜24 に空の「自動下書き」が12件＝誰かが新規投稿画面を開いて保存せず閉じている |
+| ゴミ箱 | 「コールドプレスジュースプロジェクト」が 2026-09-19 にゴミ箱へ移されていた → 新サイトからも削除した |
+| 固定ページ | 公開10枚＋下書き1枚（プライバシーポリシー＝WordPress 既定の雛形のまま。移行不要） |
+| メディア | 21件。未参照のものはデモ画像と 2021/03 の写真3枚のみ（`backups/.../wp.zip` に残っている） |
+| ユーザー | `tomapufarm_admin` の1人。管理者メールは制作会社（by-push.com）のまま |
+| フォームの宛先 | お問い合わせ＝`info@tomapufarm.com`、ご注文（`/form/`）＝`info@hokkaido-kaitakushi.co.jp` → 新フォームも同じ宛先にした |
+
 #### 手順2〜
 
-1. **さくらのバックアップを取る**（`www/` 全体と MySQL のダンプ）。戻せる状態を必ず作る
-2. 旧 WordPress のファイルを削除する
-   （`wp-admin/` `wp-includes/` `wp-content/` `wp-*.php` `index.php` `xmlrpc.php` など）
-   ※ `public/wp-content/uploads/` の PDF と OGP画像は新サイト側が同じパスで配り直すので消してよい
-3. GitHub Actions を手動実行して転送する（Actions → 本番公開 → Run workflow）
-4. **確認スクリプトを流す**
+2026-09-24 の確認で、`tomapufarm.com` の公開フォルダは **`/home/tomapufarm/www/wp`**
+（WordPress が入っているフォルダ）だと分かった。そこで、新サイトは別フォルダ `www/site/` に置き、
+ドメインの公開フォルダを切り替える。WordPress を消さずに切り替えられ、戻すときは公開フォルダを
+`www/wp` に戻すだけで済む。
+
+1. **さくらのバックアップを取る**（`www/wp` 全体と MySQL のダンプ）。
+   2026-09-24 取得分がこのMac miniの `~/tomapufarm-migration/backups/2026-09-24/` にある（sha256 付き）
+2. Secrets を登録し、GitHub Actions で `www/site/` に転送する（この時点では公開中のサイトは変わらない）
+3. `www/` 直下に `.htaccess` が無いか確認する。あれば親フォルダの設定として `www/site/` にも効くため、
+   中身を読んで新サイトに影響しないか見る
+4. さくらのコントロールパネル → ドメイン/SSL → `tomapufarm.com` の公開フォルダを `/www/wp` から `/www/site` に変更する
+5. **確認スクリプトを流す**
 
    ```bash
    ./scripts/check-site.sh https://tomapufarm.com
    ```
 
-   加えて `/contact/` と `/form/` から実際に1件送信して、メールが届くことを見る
-5. Google Search Console にサイトマップ `https://tomapufarm.com/sitemap.xml` を再送信する
-6. さくらの WordPress とデータベースを削除する（手順1〜5 が問題なければ）
-7. さくらのコントロールパネルで PHP を 8系に上げる（7.4 はサポート終了済み。
+   加えて `/contact/` と `/form/` から実際に1件ずつ送信して、メールが届くことを見る
+   （お問い合わせ → `info@tomapufarm.com`、ご注文 → `info@hokkaido-kaitakushi.co.jp`。どちらも旧サイトの設定値）
+6. Google Search Console にサイトマップ `https://tomapufarm.com/sitemap.xml` を再送信する
+7. しばらく（2週間程度）問題がなければ、`www/wp` とデータベースを削除する
+8. さくらのコントロールパネルで PHP を 8系に上げる（7.4 はサポート終了済み。
    撤去後は `api/contact.php` しか動かず、8系でも問題なく動作する）
+
+**戻し方:** 手順4の公開フォルダを `/www/wp` に戻す。WordPress を消す（手順7）までは即座に戻せる。
 
 DNS とメールは変更しません。ドメインもさくらのままです。
 

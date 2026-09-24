@@ -32,8 +32,10 @@ jobs:
         env:
           SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
           SERVER_DIR: ${{ secrets.SAKURA_SERVER_DIR }}
+          USERNAME: ${{ secrets.SAKURA_FTP_USERNAME }}
+          PASSWORD: ${{ secrets.SAKURA_FTP_PASSWORD }}
         run: |
-          if [ -z "$SERVER" ] || [ -z "$SERVER_DIR" ]; then
+          if [ -z "$SERVER" ] || [ -z "$SERVER_DIR" ] || [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "::notice title=転送は行いません::さくらの接続情報（Secrets）が未登録です。ビルドの確認だけで終了しました。SAKURA_FTP_SERVER / SAKURA_FTP_USERNAME / SAKURA_FTP_PASSWORD / SAKURA_SERVER_DIR を登録してから再実行してください。"
           else

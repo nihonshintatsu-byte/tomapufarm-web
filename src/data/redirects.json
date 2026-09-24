@@ -1,6 +1,6 @@
 [
   { "from": "/blog/お知らせテスト01/",                    "to": "/blog/website-open/" },
-  { "from": "/blog/その他/お知らせテスト02/",              "to": "/blog/coldpress-juice-project/" },
+  { "from": "/blog/その他/お知らせテスト02/",              "to": "/blog/" },
   { "from": "/blog/お知らせテスト03/",                    "to": "/blog/seika-yoyaku-hanbai/" },
   { "from": "/blog/近況報告とサポーター募集のお知らせ！/",   "to": "/blog/kinkyo-houkoku-supporter/" },
   { "from": "/blog/tomapu-farm-ひまわりgarden　開催！！/",  "to": "/blog/himawari-garden-2023/" },

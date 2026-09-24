@@ -11,8 +11,11 @@ return [
     // 送信元。Resend で認証（ドメイン検証）したドメインのアドレスにしてください
     'from' => 'TOMAPU FARM <no-reply@tomapufarm.com>',
 
-    // 受信するアドレス（複数可）
+    // お問い合わせフォーム（/contact/）の受信アドレス（複数可）
     'to' => ['info@tomapufarm.com'],
+
+    // ご注文フォーム（/form/）の受信アドレス（複数可）。旧サイトの設定を引き継いでいる
+    'order_to' => ['info@hokkaido-kaitakushi.co.jp'],
 
     // Resend が使えないときに使う、さくらのメール送信のFrom
     'fallback_from' => 'no-reply@tomapufarm.com',
