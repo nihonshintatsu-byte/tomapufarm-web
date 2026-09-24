@@ -68,12 +68,12 @@ jobs:
             set ssl:verify-certificate true;
             set net:max-retries 3;
             set net:timeout 30;
-            open --env-password -u \"$FTP_USER\" \"$FTP_SERVER\";
-            mkdir -p -f \"$SERVER_DIR\";
+            open --env-password -u $FTP_USER $FTP_SERVER;
+            mkdir -p -f $SERVER_DIR;
             mirror --reverse --delete --no-perms --parallel=4 \
               --exclude-glob api/config.php --exclude-glob api/mail.log \
               --exclude-glob .ftp-deploy-sync-state.json \
-              ./dist/ \"$SERVER_DIR\";
+              ./dist/ $SERVER_DIR;
             bye
           "
           echo "転送が完了しました。"
