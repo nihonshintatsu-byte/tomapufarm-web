@@ -53,6 +53,7 @@ php -S localhost:4400 -t dist    # http://localhost:4400/contact/
 さくらの「国外IPアドレスフィルター」が有効で、海外からの FTP が拒否されるためです
 （フィルターは FTP だけ外すことができず、外すとメール送信・SSH も海外に開くので、有効のまま残す判断をした）。
 
+- 転送は Mac mini の `lftp`（`brew install lftp`）で行う。FTP-Deploy-Action はさくらの ProFTPD とデータ通信の暗号化の相性が悪く、切断されるため使っていない
 - ランナーの場所: Mac mini の `~/actions-runner-tomapufarm`（名前 `macmini-tomapufarm`、ラベル `tomapufarm-deploy`）
 - 状態の確認: GitHub の Settings → Actions → Runners で `Idle` なら正常
 - **Mac mini が止まっている間は公開されません。** push は待ち行列に残り、Mac mini が戻れば実行されます（24時間を過ぎると失敗扱いになるので、Actions から Re-run する）
@@ -145,6 +146,7 @@ Resend を使わない場合、`config.php` が無ければさくらのメール
 1. **さくらのバックアップを取る**（`www/wp` 全体と MySQL のダンプ）。
    2026-09-24 取得分がこのMac miniの `~/tomapufarm-migration/backups/2026-09-24/` にある（sha256 付き）
 2. Secrets を登録し、GitHub Actions で `www/site/` に転送する（この時点では公開中のサイトは変わらない）
+   → 2026-09-24 済み。`https://tomapufarm.sakura.ne.jp/site/` で届いていることを確認できる（絶対パスの素材は崩れて見える）
 3. `www/` 直下に `.htaccess` が無いか確認する。あれば親フォルダの設定として `www/site/` にも効くため、
    中身を読んで新サイトに影響しないか見る
 4. さくらのコントロールパネル → ドメイン/SSL → `tomapufarm.com` の公開フォルダを `/www/wp` から `/www/site` に変更する
