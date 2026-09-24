@@ -48,20 +48,32 @@ jobs:
       - name: 出来上がったページの一覧
         run: find dist -name '*.html' | sort
 
-      - name: さくらへ転送（変更があったファイルだけ）
+      # 転送は Mac mini の lftp で行う（brew install lftp）。
+      # SamKirkland/FTP-Deploy-Action は、さくらの FTP サーバー（ProFTPD）との暗号化の相性で
+      # データ通信が切断されるため使っていない（2026-09-24 に確認）。
+      # api/config.php（APIキー）と api/mail.log はサーバーにだけ置くファイルなので、除外して触らない。
+      - name: さくらへ転送
         if: steps.creds.outputs.ready == 'true'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.SAKURA_FTP_SERVER }}
-          username: ${{ secrets.SAKURA_FTP_USERNAME }}
-          password: ${{ secrets.SAKURA_FTP_PASSWORD }}
-          protocol: ftps
-          local-dir: ./dist/
-          server-dir: ${{ secrets.SAKURA_SERVER_DIR }}
-          # サーバー側だけに置くファイルは触らない
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            api/config.php
-            api/mail.log
+        env:
+          FTP_SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
+          FTP_USER: ${{ secrets.SAKURA_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.SAKURA_FTP_PASSWORD }}
+          SERVER_DIR: ${{ secrets.SAKURA_SERVER_DIR }}
+        run: |
+          LFTP="$(command -v lftp || echo /opt/homebrew/bin/lftp)"
+          "$LFTP" -e "
+            set cmd:fail-exit true;
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate true;
+            set net:max-retries 3;
+            set net:timeout 30;
+            open --env-password -u \"$FTP_USER\" \"$FTP_SERVER\";
+            mkdir -p -f \"$SERVER_DIR\";
+            mirror --reverse --delete --no-perms --parallel=4 \
+              --exclude-glob api/config.php --exclude-glob api/mail.log \
+              --exclude-glob .ftp-deploy-sync-state.json \
+              ./dist/ \"$SERVER_DIR\";
+            bye
+          "
+          echo "転送が完了しました。"
