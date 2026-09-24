@@ -46,6 +46,19 @@ php -S localhost:4400 -t dist    # http://localhost:4400/contact/
 | 外部リンクの生死 | BASE・Instagram・YouTube・Googleマップ・SnapWidget は正常。`twitter.com` は `x.com` へ転送される（リンク自体は有効） |
 | 会社案内PDF | 2021年1月29日アップロード。内容が最新か要確認 |
 
+## 公開の仕組み（Mac mini のランナー）
+
+`main` に push されると、**日本信達の Mac mini に常駐している GitHub Actions ランナー**が
+ビルドし、FTPS でさくらの `www/site/` へ転送します。GitHub のサーバー（海外）で実行しないのは、
+さくらの「国外IPアドレスフィルター」が有効で、海外からの FTP が拒否されるためです
+（フィルターは FTP だけ外すことができず、外すとメール送信・SSH も海外に開くので、有効のまま残す判断をした）。
+
+- ランナーの場所: Mac mini の `~/actions-runner-tomapufarm`（名前 `macmini-tomapufarm`、ラベル `tomapufarm-deploy`）
+- 状態の確認: GitHub の Settings → Actions → Runners で `Idle` なら正常
+- **Mac mini が止まっている間は公開されません。** push は待ち行列に残り、Mac mini が戻れば実行されます（24時間を過ぎると失敗扱いになるので、Actions から Re-run する）
+- 別のマシンへ移すとき: 新しいマシンで同じ手順でランナーを登録し、古いほうは
+  `./svc.sh stop && ./svc.sh uninstall` のあと `./config.sh remove` で外す
+
 ## 公開後の確認
 
 切り替えたら、本番URLを指定して確認スクリプトを流します。**メールは送りません**

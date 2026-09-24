@@ -13,7 +13,10 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    # さくらは国外IPアドレスフィルターで海外からの FTP を拒否しているため、
+    # GitHub のサーバー（海外）ではなく、日本信達の Mac mini（国内）で実行します。
+    # Mac mini 側のランナーは ~/actions-runner-tomapufarm（README「公開の仕組み」参照）。
+    runs-on: [self-hosted, tomapufarm-deploy]
     steps:
       - uses: actions/checkout@v4
 
