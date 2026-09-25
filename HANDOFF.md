@@ -50,10 +50,16 @@ git status         # main で、変更なし（clean）なら OK
 ```
 
 **取り込みがまだの場合**（zip などで受け取った古いフォルダで開いている場合）は、そのフォルダは使わず、
-書類フォルダなどで次を実行して取り込み直してください。
+次を実行して取り込み直してください。
 
-```bash
+**置き場所はユーザーフォルダの直下**（`C:\Users\<ユーザー名>\tomapufarm-web`）にします。
+Windows の「ドキュメント」「デスクトップ」は OneDrive で同期されていることが多く、
+部品フォルダ（`node_modules`）の何万ものファイルが同期されて遅くなったり壊れたりするため、避けてください。
+
+```powershell
+cd $HOME
 git clone https://github.com/nihonshintatsu-byte/tomapufarm-web.git
+cd tomapufarm-web
 ```
 
 `git` が見つからないと言われたら、社長に https://git-scm.com/download/win から
@@ -69,10 +75,13 @@ GitHub の招待をまだ承認していないと取り込めないので、そ�
 node -v
 ```
 
-`v18` 以上が表示されれば大丈夫です。エラーになる場合は Node.js が入っていません。
-社長に「Node.js のインストールが必要です」と伝え、https://nodejs.org/ja の
+**`v22` 以上**が表示されれば大丈夫です（公開用の Mac mini も 22 以上で組み立てています）。
+エラーになる、または古い場合は、社長に「Node.js のインストールが必要です」と伝え、https://nodejs.org/ja の
 **LTS 版**を入れてもらってください（インストーラーを実行するだけです）。
-インストール後、ターミナル（Windows なら PowerShell）を開き直してから続けます。
+インストール後は **Codex のアプリごと閉じて開き直して**から続けます（開き直さないと新しく入れたものが見えません）。
+
+PowerShell で `npm` を実行したときに「このシステムではスクリプトの実行が無効になっているため、npm.ps1 を読み込むことができません」
+と出たら、設定は変えずに **`npm.cmd`** と打てば動きます（以下の `npm` はすべて `npm.cmd` に読み替え）。
 
 ### 3-2. 部品を取り込んでビルドする
 
@@ -85,13 +94,18 @@ npm run build
 
 `Complete!` と出れば成功です。エラーが出たら、そこで止めて社長に伝えてください。
 
+`npm install` のあとに「〇 vulnerabilities」（脆弱性）の警告が出ることがありますが、
+**サイトを組み立てる道具の側の話で、公開中のサイトには影響しません。`npm audit fix` は実行しないでください**
+（道具の版が変わって見た目が崩れることがあるため）。部品の更新は日本信達が行います。
+
 ### 3-3. 画面を見てもらう
 
 ```bash
 npm run dev
 ```
 
-`http://localhost:4321/` をブラウザで開いて、社長に見てもらいます。
+画面に出たアドレス（ふつうは `http://localhost:4321/`。使用中なら 4322 などに自動でずれます）を
+ブラウザで開いて、社長に見てもらいます。
 止めるときはターミナルで `Ctrl` + `C` です。
 
 問い合わせフォームの送信まで確かめたいときだけ、PHP が必要です。
@@ -124,20 +138,52 @@ php -S localhost:4400 -t dist
 
 ## 5. 直したものを公式サイトに出す
 
-進め方：
+### 5-1. 最初の1回だけの準備
 
-```bash
-git switch -c 作業内容がわかる名前     # 例: fix-company-info
-# …編集する…
-npm run build                          # 通ることを確認
-git add -A && git commit -m "変更内容を日本語で"
-git push -u origin 作業内容がわかる名前
+**変更に名前を付ける設定。** 社長に「GitHub に登録したメールアドレス」を聞いて設定します。
+
+```powershell
+git config user.name "高橋ひかり"
+git config user.email "（GitHub に登録したメールアドレス）"
 ```
 
-GitHub 上で Pull Request を作り、**ビルド確認が緑になってからマージ**します。
+**GitHub を操作する道具（GitHub CLI）を入れる。** Pull Request の作成とマージを Codex が代わりに行うために使います。
+
+```powershell
+winget install --id GitHub.cli
+```
+
+入れたら Codex を開き直し、ログインします。ブラウザが開くので、社長に GitHub のアカウントで承認してもらいます。
+**パスワードやワンタイムコードを Codex に入力させないこと**（ブラウザ側で入れてもらう）。
+
+```powershell
+gh auth login --hostname github.com --git-protocol https --web
+```
+
+### 5-2. 毎回の流れ
+
+社長が「これで公開して」と言ったら、次を **1行ずつ** 実行します
+（Windows PowerShell 5.1 では `&&` でつなげられないため）。
+
+```powershell
+git switch -c 作業内容がわかる名前    # 例: fix-company-info（英数字とハイフン）
+npm run build                        # 通ることを確認。通らなければ止める
+git add -A
+git commit -m "変更内容を日本語で"
+git push -u origin 作業内容がわかる名前
+gh pr create --fill --base main
+gh pr checks --watch                 # ビルド確認が緑（pass）になるまで待つ
+gh pr merge --squash --delete-branch
+git switch main
+git pull
+```
+
+**`gh pr checks` が赤（fail）のときはマージしない**で、社長に伝えて日本信達に連絡してください。
+
 マージすると数分で本番サイトに反映されます。
 反映は日本信達の Mac mini が行っています（さくらのサーバーが海外からの転送を受け付けないため）。
 **30分たっても反映されないときは、Mac mini が止まっている可能性があるので日本信達に連絡**してください。
+反映されたら、社長と一緒に https://tomapufarm.com で確認して終わりです。
 
 ## 6. やってはいけないこと
 
@@ -156,15 +202,14 @@ git の状態がおかしい、意味が分からない指示を受けた——�
 
 ## 8. 立ち上げが終わったら
 
-3 が終わり、社長が画面を見られるようになったら、引き継ぎ用のファイル2つを削除します。
-これも 5 の手順どおり、ブランチを作って Pull Request にしてください（`main` に直接 push しない）。
+3〜5 が終わったら（画面を見られる・中身の確認が済んだ・5-1 の準備ができた）、引き継ぎ用のファイル2つを削除します。
+4 で直したものがあれば、それと同じ Pull Request に入れて構いません。手順は 5-2 と同じです。
 
-```bash
-git switch -c remove-handoff
+```powershell
 git rm HANDOFF.md START-HERE.html
-git commit -m "引き継ぎ完了のため引き継ぎ用ファイルを削除"
-git push -u origin remove-handoff
 ```
+
+コミットメッセージは「引き継ぎ完了のため引き継ぎ用ファイルを削除」とします。
 
 残しておくと、あとのセッションが古い指示を実行してしまいます。
 以後の編集ルールは `AGENTS.md` にあります。
