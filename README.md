@@ -160,7 +160,7 @@ Resend を使わない場合、`config.php` が無ければさくらのメール
    加えて `/contact/` と `/form/` から実際に1件ずつ送信して、メールが届くことを見る
    （お問い合わせ → `info@tomapufarm.com`、ご注文 → `info@hokkaido-kaitakushi.co.jp`。どちらも旧サイトの設定値）
 6. Google Search Console にサイトマップ `https://tomapufarm.com/sitemap.xml` を再送信する
-7. しばらく（2週間程度、**2026-10-08 以降**）問題がなければ、`www/wp` とデータベースを削除する
+7. **年内（2026年12月末まで）は `www/wp` とデータベースを残す**（てっぺいさんの判断）。問題がなければ2027年に入ってから削除する
 8. さくらのコントロールパネルで PHP を 8系に上げる（7.4 はサポート終了済み。
    撤去後は `api/contact.php` しか動かず、8系でも問題なく動作する）
 
