@@ -1,0 +1,39 @@
+name: 旧WordPressをウェブの外へ移す（1回限り）
+
+# 旧 WordPress（www/wp）は年内は消さずに残すが、さくらの初期ドメイン経由で
+# まだ動いてしまうため、ウェブから見えない場所へ移す。ファイルもDBも消さない。
+# 戻すとき: /home/tomapufarm/wp-archive-20260924 を /home/tomapufarm/www/wp に戻し、
+#           さくらの公開フォルダを /www/wp に戻す（README「戻し方」）。
+# 2026-10-09 に日本信達の Mac mini から実行する予定。実行後はこのファイルを削除する。
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "確認だけ（移動しない）"
+        type: boolean
+        default: true
+
+jobs:
+  archive:
+    runs-on: [self-hosted, tomapufarm-deploy]
+    steps:
+      - name: 移動（または確認）
+        env:
+          FTP_SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
+          FTP_USER: ${{ secrets.SAKURA_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.SAKURA_FTP_PASSWORD }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          LFTP="$(command -v lftp || echo /opt/homebrew/bin/lftp)"
+          SRC=/home/tomapufarm/www/wp
+          DST=/home/tomapufarm/wp-archive-20260924
+          CONN="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate true; set net:max-retries 3; open --env-password -u $FTP_USER $FTP_SERVER"
+          echo "== 移動前の状態 =="
+          "$LFTP" -e "$CONN; cls -1 /home/tomapufarm/; cls -1 /home/tomapufarm/www/; bye"
+          # 移す先がすでにある・移す元が無い場合は何もしない（二重実行の防止）
+          if "$LFTP" -e "$CONN; cls -d $DST; bye" >/dev/null 2>&1; then echo "移動先がすでにあります。中止します"; exit 1; fi
+          "$LFTP" -e "set cmd:fail-exit true; $CONN; cls -d $SRC/wp-config.php; bye" >/dev/null || { echo "移動元に WordPress がありません。中止します"; exit 1; }
+          if [ "$DRY_RUN" = "true" ]; then echo "確認だけの実行です。移動はしていません。"; exit 0; fi
+          "$LFTP" -e "set cmd:fail-exit true; $CONN; mv $SRC $DST; bye"
+          echo "== 移動後の状態 =="
+          "$LFTP" -e "$CONN; cls -1 /home/tomapufarm/; cls -1 /home/tomapufarm/www/; bye"
