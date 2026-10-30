@@ -1,0 +1,41 @@
+name: サーバーの点検（読み取りのみ）
+
+# さくらのサーバー上のファイル一覧を取り出し、公開用に作ったファイル（dist）と突き合わせます。
+# 見覚えのないファイル（特に .php）や、こちらの転送以外で書き換わったファイルを見つけるためのもの。
+# サーバー上のファイルは一切変更しません。2026-10-30、PHP2Shell（CVE-2026-109618/109619）への対応で追加。
+on:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: [self-hosted, tomapufarm-deploy]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: サーバーのファイル一覧を取得して突き合わせ
+        env:
+          FTP_SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
+          FTP_USER: ${{ secrets.SAKURA_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.SAKURA_FTP_PASSWORD }}
+        run: |
+          LFTP="$(command -v lftp || echo /opt/homebrew/bin/lftp)"
+          CONN="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate true; set net:max-retries 3; open --env-password -u $FTP_USER $FTP_SERVER"
+          echo "== ホーム直下（隠しファイル含む・新しい順） =="
+          "$LFTP" -e "$CONN; cls -la --sort=date /home/tomapufarm/; bye"
+          echo "== .ssh =="
+          "$LFTP" -e "$CONN; cls -la /home/tomapufarm/.ssh/; bye" || true
+          echo "== www 直下 =="
+          "$LFTP" -e "$CONN; cls -la --sort=date /home/tomapufarm/www/; bye"
+          "$LFTP" -e "$CONN; find /home/tomapufarm/www/site/; bye" | sed 's|^/home/tomapufarm/www/site/||' | grep -v '/$' | sort > server.txt
+          (cd dist && find . -type f | sed 's|^\./||' | sort) > local.txt
+          echo "== サーバーにだけあるファイル（要確認） =="
+          comm -23 server.txt local.txt
+          echo "== サーバー上の .php ファイル（www 全体） =="
+          "$LFTP" -e "$CONN; find /home/tomapufarm/www/; bye" | grep -iE '\.(php|phtml|phar|php[0-9])$' || true
+          echo "== 10月18日以降に更新されたファイル（www 全体・新しい順の先頭40件） =="
+          "$LFTP" -e "$CONN; find -l /home/tomapufarm/www/; bye" | grep -vE ' (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep) ' | grep -E ' Oct (1[89]|2[0-9]|3[01]) | Nov ' | head -40 || true
