@@ -37,5 +37,6 @@ jobs:
           comm -23 server.txt local.txt
           echo "== サーバー上の .php ファイル（www 全体） =="
           "$LFTP" -e "$CONN; find /home/tomapufarm/www/; bye" | grep -iE '\.(php|phtml|phar|php[0-9])$' || true
-          echo "== 10月18日以降に更新されたファイル（www 全体・新しい順の先頭40件） =="
-          "$LFTP" -e "$CONN; find -l /home/tomapufarm/www/; bye" | grep -vE ' (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep) ' | grep -E ' Oct (1[89]|2[0-9]|3[01]) | Nov ' | head -40 || true
+          # さくらの一覧は「10月 30 16:09」のように、半年以内の更新は年ではなく時刻が出る
+          echo "== 直近半年に更新されたファイル（www 全体） =="
+          "$LFTP" -e "$CONN; find -l /home/tomapufarm/www/; bye" | grep -E '[0-9]+月 +[0-9]+ +[0-9]{2}:[0-9]{2} ' | grep -v '/$' | head -60 || true
