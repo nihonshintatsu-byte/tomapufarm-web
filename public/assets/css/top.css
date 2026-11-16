@@ -633,12 +633,14 @@ padding: 8px 10px 6px;
 .top #Sec01 .map_area .flex{
 	max-width: 480px;
 	margin: 45px auto 0;
-	display: block;
+	display: flex;
+	align-items: flex-start;
+	gap: 4%;
 }
 .top #Sec01 .map_area .flex .map{
-	width: 100%;
+	width: 46%;
 	margin: 0;
-	padding: 0 15px;
+	padding: 0;
 	box-sizing: border-box;
 }
 .top #Sec01 .map_area .flex .map img{
@@ -646,10 +648,10 @@ padding: 8px 10px 6px;
 	height: auto;
 }
 .top #Sec01 .map_area .flex .img{
-	width: 100%;
-	padding-left: 35px;
+	width: 50%;
+	padding-left: 0;
 	box-sizing: border-box;
-	margin-top: 25px;
+	margin-top: 0;
 }
 
 /* #Sec02
