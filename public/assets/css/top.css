@@ -347,7 +347,7 @@ padding: 8px 10px 6px;
 .top #Sec03 .inner{
 }
 .top #Sec03 .vision_area{
-	background: url(../images/top/img_04.png);
+	background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(../images/top/vision-harvest-2026-11.jpg);
 	background-size: cover;
 	background-position: center;
 	position: relative;
@@ -727,7 +727,7 @@ padding: 8px 10px 6px;
 .top #Sec03 .inner{
 }
 .top #Sec03 .vision_area{
-	background: url(../images/top/img_04_sp.png);
+	background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(../images/top/vision-harvest-2026-11.jpg);
 	background-size: cover;
   background-position: center;
 }
