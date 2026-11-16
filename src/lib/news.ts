@@ -4,7 +4,8 @@ export type News = CollectionEntry<'news'>;
 
 /** 公開中のお知らせを新しい順に返します（draft: true のものは除外）。 */
 export async function getNews(): Promise<News[]> {
-  const all = await getCollection('news', ({ data }) => data.draft !== true);
+  const preview = import.meta.env.DEV && process.env.NEWS_PREVIEW === '1';
+  const all = await getCollection('news', ({ data }) => preview || data.draft !== true);
   return all.sort((a, b) => (a.data.date < b.data.date ? 1 : -1));
 }
 
@@ -15,7 +16,7 @@ export function newsUrl(entry: News): string {
 
 /** '2023-08-08' → '2023.08.08' */
 export function newsDate(entry: News): string {
-  return entry.data.date.replaceAll('-', '.');
+  return entry.data.dateLabel ?? entry.data.date.replaceAll('-', '.');
 }
 
 /** 1ページあたりの記事数（現行サイトと同じ4本） */
