@@ -1,0 +1,20 @@
+# 投稿画面にもう一段パスワードをかけたいときは、このファイルを
+# サーバーの admin/.htaccess という名前で置きます（任意）。
+# .htpasswd は公開フォルダの外に置いてください。
+#
+#   htpasswd -c /home/tomapufarm/.htpasswd-admin hikari
+#
+# ログインが2回に増えるので、必要と判断したときだけ入れてください。
+
+AuthType Basic
+AuthName "TOMAPU FARM"
+AuthUserFile /home/tomapufarm/.htpasswd-admin
+Require valid-user
+
+# 設定ファイルは外から読めないようにする（念のため）
+<Files "config.php">
+  Require all denied
+</Files>
+<Files "htaccess.sample">
+  Require all denied
+</Files>

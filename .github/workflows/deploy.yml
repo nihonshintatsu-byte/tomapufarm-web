@@ -72,6 +72,7 @@ jobs:
             mkdir -p -f $SERVER_DIR;
             mirror --reverse --delete --no-perms --parallel=4 \
               --exclude-glob api/config.php --exclude-glob api/mail.log \
+              --exclude-glob admin/config.php \
               --exclude-glob .ftp-deploy-sync-state.json \
               ./dist/ $SERVER_DIR;
             bye

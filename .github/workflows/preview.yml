@@ -1,0 +1,77 @@
+name: プレビュー公開（下書きも見えるサイト）
+
+# 下書きを含めたサイトを組み立てて、さくらのプレビュー用フォルダへ転送します。
+# 社長の投稿画面から「プレビューのサイトで開く」で見るのがこれです。
+# 検索には載りません（noindex ＋ robots.txt で拒否、さらにパスワードをかけます）。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-preview
+  cancel-in-progress: true   # 新しい下書きが来たら、古い方は止めてよい
+
+jobs:
+  preview:
+    runs-on: [self-hosted, tomapufarm-deploy]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: 下書きを含めて組み立てる
+        env:
+          NEWS_PREVIEW: '1'
+        run: npm run build
+
+      - name: 検索に拾われないようにする
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          rm -f dist/sitemap.xml
+
+      - name: 接続情報があるか確認
+        id: creds
+        env:
+          SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
+          PREVIEW_DIR: ${{ secrets.SAKURA_PREVIEW_DIR }}
+          USERNAME: ${{ secrets.SAKURA_FTP_USERNAME }}
+          PASSWORD: ${{ secrets.SAKURA_FTP_PASSWORD }}
+        run: |
+          if [ -z "$SERVER" ] || [ -z "$PREVIEW_DIR" ] || [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=プレビューは転送しません::SAKURA_PREVIEW_DIR などが未登録です。組み立ての確認だけで終了しました。"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: さくらのプレビュー用フォルダへ転送
+        if: steps.creds.outputs.ready == 'true'
+        env:
+          FTP_SERVER: ${{ secrets.SAKURA_FTP_SERVER }}
+          FTP_USER: ${{ secrets.SAKURA_FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.SAKURA_FTP_PASSWORD }}
+          PREVIEW_DIR: ${{ secrets.SAKURA_PREVIEW_DIR }}
+        run: |
+          LFTP="$(command -v lftp || echo /opt/homebrew/bin/lftp)"
+          "$LFTP" -e "
+            set cmd:fail-exit true;
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate true;
+            set net:max-retries 3;
+            set net:timeout 30;
+            open --env-password -u $FTP_USER $FTP_SERVER;
+            mkdir -p -f $PREVIEW_DIR;
+            mirror --reverse --delete --no-perms --parallel=4 \
+              --exclude-glob .htaccess --exclude-glob .htpasswd \
+              --exclude-glob api/config.php --exclude-glob admin/config.php \
+              ./dist/ $PREVIEW_DIR;
+            bye
+          "
+          echo "プレビューの転送が完了しました。"

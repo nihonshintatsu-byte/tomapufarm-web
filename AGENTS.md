@@ -142,6 +142,19 @@ npm run dev
 
 ---
 
+## 11. お知らせ投稿画面（/admin/）を触るとき
+
+代表者が iPhone から投稿するための画面が `public/admin/` にあります（PHP）。
+記事ファイルを GitHub 経由で読み書きするので、**記事の形式を変えたら投稿画面も直す**必要があります。
+
+- 記事の項目（`title` / `date` / `dateLabel` / `slug` / `thumbnail` / `image` / `draft`）を
+  増やしたり減らしたりしたら、`public/admin/lib/article.php` と `public/admin/edit.php` を合わせる
+- **`src/pages/blog/[...slug].astro` の記事まわりの作りを変えたら、
+  `public/admin/preview.php` も同じ形に直す。** その場で見せるプレビューは本番と同じ作りを
+  もう一組持っているため、片方だけ直すとプレビューだけズレる
+- `admin/config.php`（トークンとパスワード）はサーバーにだけ置く。リポジトリに入れない
+- 下書きを含むビルドは `NEWS_PREVIEW=1`。`src/lib/news.ts` と `src/layouts/Base.astro` が見ている
+
 ## 10. 全社共通のルール
 
 日本信達グループ共通のルールは `nihonshintatsu-byte/shintatsu-docs` の
