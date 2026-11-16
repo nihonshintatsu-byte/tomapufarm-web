@@ -1,7 +1,7 @@
 ---
 title: "北海道農業・農村情報誌「confa」に掲載いただきました！"
-date: "2023"
-dateLabel: "2023年春（確認待ち）"
+date: "2023-04"
+dateLabel: "2023年4月"
 slug: "confa-2023"
 draft: true
 ---
