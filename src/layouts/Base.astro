@@ -18,6 +18,9 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
+
+// 下書きを含むプレビュー用のビルドでは、検索に載せない
+const isPreviewBuild = process.env.NEWS_PREVIEW === '1';
 ---
 <!DOCTYPE html>
 <html lang="ja">
@@ -31,6 +34,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 {description && <meta name="description" content={description} />}
 {keywords && <meta name="keywords" content={keywords} />}
 <link rel="canonical" href={canonical}>
+{isPreviewBuild && <meta name="robots" content="noindex, nofollow" />}
 
 <meta property="og:site_name" content={site.ogSiteName}>
 <meta property="og:type" content="website">

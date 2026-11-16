@@ -60,6 +60,92 @@ php -S localhost:4400 -t dist    # http://localhost:4400/contact/
 - 別のマシンへ移すとき: 新しいマシンで同じ手順でランナーを登録し、古いほうは
   `./svc.sh stop && ./svc.sh uninstall` のあと `./config.sh remove` で外す
 
+## iPhone からお知らせを投稿する画面（/admin/）
+
+代表者が PC を開かずに、iPhone だけでお知らせを書いて公開できる画面です。
+`https://tomapufarm.com/admin/` にあります（検索には出ません）。
+
+### どう動くか
+
+```
+iPhone（Safari）
+  → /admin/ の投稿画面（さくらの PHP）
+  → GitHub に記事ファイルと写真を保存（Contents API）
+  → Mac mini のランナーが組み立てて、さくらへ転送
+  → tomapufarm.com に反映（2〜3分）
+```
+
+記事の正本は引き続き GitHub です。Codex から編集する方法と、この画面からの投稿は
+**同じファイルを触る**ので、どちらを使っても食い違いません。
+代表者は GitHub のアカウントもトークンも使いません（画面がサーバー側のトークンで代理で書き込みます）。
+
+### できること
+
+| 操作 | 中で起きること |
+|---|---|
+| 下書きとして保存 | `draft: true` で GitHub に保存。公開サイトには出ない |
+| 見た目を確認する | その場で記事部分だけを本番の CSS で表示（待ち時間なし） |
+| プレビューのサイトで開く | 下書きを含めたサイト全体を `preview.tomapufarm.com` で確認（2〜3分後） |
+| 公開する | `draft: false` にして保存。本番の公開が走る |
+| 公開を取り下げる | `draft: true` に戻す |
+| 写真を追加 | 向きを直し、長辺1600pxに縮め、JPEGに変換（撮影場所などの情報は落ちる）。一覧用の小さい版も作る |
+| 掲載日 | 「2026年8月12日」と「2026年8月」のどちらの表示かを選べる（`dateLabel`） |
+
+### 用意するもの（設置の手順）
+
+**1. さくらにプレビュー用のサブドメインを足す**
+
+コントロールパネルで `preview.tomapufarm.com` を追加し、公開フォルダを
+`/home/tomapufarm/www/preview` にします。無料のSSL証明書も発行しておきます。
+
+**2. プレビューのサイトにパスワードをかける**
+
+下書きが誰でも見える状態にしないため、サーバーの `www/preview/.htaccess` に Basic 認証を置きます。
+`.htpasswd` は公開フォルダの外（例 `/home/tomapufarm/.htpasswd-preview`）に作ります。
+プレビューのビルドは `.htaccess` と `.htpasswd` を転送対象から外してあるので、上書きされません。
+
+**3. GitHub の Secrets に1つ足す**
+
+| 名前 | 値 |
+|---|---|
+| `SAKURA_PREVIEW_DIR` | `/home/tomapufarm/www/preview/`（末尾のスラッシュを忘れずに） |
+
+**4. GitHub のトークンを作る**
+
+Settings → Developer settings → Personal access tokens → **Fine-grained tokens**。
+
+- Repository access: **このリポジトリだけ**（`nihonshintatsu-byte/tomapufarm-web`）
+- Permissions: **Contents = Read and write** と **Actions = Read-only** の2つだけ。ほかは付けない
+  （Actions の読み取りは、公開の作業が動いているか／失敗したかを投稿画面に出すために使います）
+- 有効期限を設定したら、期限の前に入れ替える（切れると投稿画面が書き込めなくなる）
+
+**5. ログインのパスワードを作る**
+
+```bash
+php -r 'echo password_hash("ここにパスワード", PASSWORD_DEFAULT), "\n";'
+```
+
+**6. サーバーに `admin/config.php` を置く**
+
+`public/admin/config.sample.php` を写して作り、さくらの `www/site/admin/config.php` に置きます。
+このファイルは GitHub に入れず、自動転送の対象からも外してあるので上書きされません。
+
+**7. 確認**
+
+`https://tomapufarm.com/admin/` を iPhone で開き、ログイン → 下書き保存 → 見た目の確認 →
+プレビューのサイト → 公開、までひと通り通します。
+
+### 気をつけること
+
+- **Mac mini が止まっていると公開されません。** 投稿画面の一覧に、公開の作業が動いているか／
+  失敗したかを出すようにしてあります
+- 投稿画面は外から見える場所にあるので、パスワードは長いものにしてください。
+  続けて失敗すると10分間受け付けなくなります
+- もう一段守りたいときは `public/admin/htaccess.sample` を `admin/.htaccess` として置くと、
+  Basic 認証が足されます（ログインが2回になります）
+- トークンが漏れた疑いがあるときは、GitHub でそのトークンを失効させて作り直します。
+  権限はこのリポジトリの中身だけなので、ほかには広がりません
+
 ## 公開後の確認
 
 切り替えたら、本番URLを指定して確認スクリプトを流します。**メールは送りません**
