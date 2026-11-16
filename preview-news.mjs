@@ -38,4 +38,3 @@ http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.end(`<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>お知らせ・公開前プレビュー</title><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="/assets/css/news.css"></head><body><div style="padding:16px;background:#fff5ce;color:#333;text-align:center">公開前の確認用／画像は後日追加　<a href="/">11件の一覧</a></div><div id="Content" class="under">${content}</div></body></html>`);
 }).listen(4322, '127.0.0.1', () => console.log('Preview: http://127.0.0.1:4322/'));
-

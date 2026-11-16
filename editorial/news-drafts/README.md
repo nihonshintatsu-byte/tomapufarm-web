@@ -23,3 +23,9 @@ posts.jsonのdateは確定日YYYY-MM-DD、月単位YYYY-MM、未確定null。公
 既存のCSSを使用した本文確認用プレビュー。公式サイトのヘッダー・フッターや一覧のページ送りは省略している。
 表示用データは posts.json。番号別Markdownは確認用の原稿控えで、修正時には両方の内容を揃える。
 このフォルダーはAstroの公開対象外。確定・承認後にsrc/content/newsへ記事を移す。
+
+## 実際のホームページでのプレビュー
+
+PowerShellで $env:NEWS_PREVIEW='1' を設定して npm.cmd run dev -- --host 127.0.0.1 --port 4323 を実行。http://127.0.0.1:4323/blog/ を開く。既存のヘッダー・フッター・一覧・記事ページをそのまま使う。画像は未設定。
+
+src/content/news/draft-*.md に11件を作成済み。全件draft: trueで、開発サーバーかつNEWS_PREVIEW=1のときだけ表示。本番ビルドはこの環境変数があっても除外される。月未確定のconfaは2023年の仮位置、時期不明の農業女子は末尾に表示。公開前に順序を確認する。今後の編集は記事Markdownを正とし、必要に応じ原稿控えにも反映する。
