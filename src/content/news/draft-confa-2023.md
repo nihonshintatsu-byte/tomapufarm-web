@@ -3,7 +3,7 @@ title: "北海道農業・農村情報誌「confa」に掲載いただきまし�
 date: "2023-04"
 dateLabel: "2023年4月"
 slug: "confa-2023"
-draft: true
+draft: false
 ---
 
 北海道が発行する農業・農村情報誌「confa（コンファ）」Vol.60の特集「農を拓く女性たち」に、TOMAPU FARM代表・高橋ひかりを取り上げていただきました！

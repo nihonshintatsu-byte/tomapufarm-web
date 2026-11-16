@@ -3,7 +3,7 @@ title: "朝日新聞にひまわりgardenを取材いただきました！"
 date: "2026-08"
 dateLabel: "2026年8月"
 slug: "asahi-himawari-2026"
-draft: true
+draft: false
 ---
 
 朝日新聞さんに、TOMAPU FARMの「ひまわりgarden」を取材いただきました！

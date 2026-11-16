@@ -3,7 +3,7 @@ title: "TripEat北海道に「Natsu 2023」をご紹介いただきました！"
 date: "2024-07-16"
 dateLabel: "2024.07.16"
 slug: "tripeat-natsu-2024"
-draft: true
+draft: false
 ---
 
 北海道新聞社のWEBメディア「TripEat北海道」に、TOMAPU FARMのワインをご紹介いただきました！

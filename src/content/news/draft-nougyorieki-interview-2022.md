@@ -3,7 +3,7 @@ title: "農業利益創造研究所にインタビューを掲載いただきま
 date: "2022-01-31"
 dateLabel: "2022.01.31"
 slug: "nougyorieki-interview-2022"
-draft: true
+draft: false
 ---
 
 農業利益創造研究所の「農業女子インタビュー」に、TOMAPU FARM代表・高橋ひかりを取り上げていただきました！

@@ -3,7 +3,7 @@ title: "FNNプライムオンラインにTOMAPU FARM代表・高橋ひかりの�
 date: "2023-12-29"
 dateLabel: "2023.12.29"
 slug: "fnn-2023"
-draft: true
+draft: false
 ---
 
 UHB「みんテレ」で取材いただいた内容が、FNNプライムオンラインでも記事として掲載されました！

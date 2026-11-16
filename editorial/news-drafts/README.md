@@ -29,3 +29,7 @@ posts.jsonのdateは確定日YYYY-MM-DD、月単位YYYY-MM、未確定null。公
 PowerShellで $env:NEWS_PREVIEW='1' を設定して npm.cmd run dev -- --host 127.0.0.1 --port 4323 を実行。http://127.0.0.1:4323/blog/ を開く。既存のヘッダー・フッター・一覧・記事ページをそのまま使う。画像は未設定。
 
 src/content/news/draft-*.md に11件を作成済み。全件draft: trueで、開発サーバーかつNEWS_PREVIEW=1のときだけ表示。本番ビルドはこの環境変数があっても除外される。confaは依頼者指定の2023年4月の位置、時期不明の農業女子は末尾に表示。公開前に順序を確認する。今後の編集は記事Markdownを正とし、必要に応じ原稿控えにも反映する。
+
+## 公開承認
+2026年11月16日、写真なしで10件の公開を承認。農業女子プロジェクト（15）は依頼者の指示で公開しない。src/content/newsのMarkdownが公開原稿の正本。原稿控えの未公開表記は作成時の記録。
+

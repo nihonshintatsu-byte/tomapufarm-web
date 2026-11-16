@@ -3,7 +3,7 @@ title: "HTB北海道テレビにひまわりgardenを取材いただきました
 date: "2026-08"
 dateLabel: "2026年8月"
 slug: "htb-himawari-2026"
-draft: true
+draft: false
 ---
 
 HTB北海道テレビさんに、TOMAPU FARMの「ひまわりgarden」を取材いただきました！

@@ -3,7 +3,7 @@ title: "UHB「みんテレ」にTOMAPU FARM代表・高橋ひかりを取り上�
 date: "2023-10-06"
 dateLabel: "2023.10.06"
 slug: "uhb-mintele-2023"
-draft: true
+draft: false
 ---
 
 UHB北海道文化放送「みんテレ」の企画「ママドキュ」に、TOMAPU FARM代表・高橋ひかりを取り上げていただきました！
